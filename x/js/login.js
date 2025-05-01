@@ -119,6 +119,22 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('lastLogin', new Date().toString());
 
+            // Fetch user profile and store as currentUser
+            try {
+                const profileRes = await fetch(`${API_BASE_URL}/users/me`, {
+                    headers: { 'Authorization': `Bearer ${response.token}` }
+                });
+                if (profileRes.ok) {
+                    const profile = await profileRes.json();
+                    localStorage.setItem('currentUser', JSON.stringify(profile));
+                } else {
+                    // fallback to response.user if profile fetch fails
+                    localStorage.setItem('currentUser', JSON.stringify(response.user));
+                }
+            } catch (e) {
+                localStorage.setItem('currentUser', JSON.stringify(response.user));
+            }
+
             console.log('Successfully logged in');
             
             // Show success message to user

@@ -99,111 +99,89 @@ document.addEventListener("DOMContentLoaded", () => {
     return avatarDiv
   }
   
-  // Function to load question details
-  function loadQuestionDetails(questionId) {
-    // In a real application, this would be an API call
-    // For now, we'll simulate with mock data
-    const mockQuestions = JSON.parse(localStorage.getItem("questions")) || []
-    const question = mockQuestions.find((q) => q.id === Number.parseInt(questionId) || q.id === questionId)
-  
-    if (!question) {
-      document.getElementById("question-title").textContent = "Question not found"
-      return
-    }
-  
-    // Update page title
-    document.title = `${question.title} - College Q&A`
-  
-    // Update breadcrumbs
-    document.getElementById("question-title-breadcrumb").textContent = question.title
-    document.getElementById("college-questions-link").href = `questions.html?college=${question.collegeId}`
-  
-    // Update question header
-    document.getElementById("question-title").textContent = question.title
-    document.getElementById("question-date").textContent = `Asked on: ${formatDate(question.createdAt)}`
-    document.getElementById("question-views").innerHTML = `<i class="fas fa-eye"></i> ${question.views} views`
-  
-    // Update question tags
-    const tagsContainer = document.getElementById("question-tags")
-    tagsContainer.innerHTML = ""
-  
-    question.tags.forEach((tag) => {
-      const tagElement = document.createElement("span")
-      tagElement.className = "tag"
-      tagElement.textContent = tag
-      tagsContainer.appendChild(tagElement)
-    })
-  
-    // Update question content
-    document.getElementById("question-text").innerHTML = question.content
-    document.getElementById("question-vote-count").textContent = question.votes
-  
-    // Check if question is bookmarked by current user
-    const currentUser = getCurrentUser()
-    const bookmarkBtn = document.getElementById("bookmark-btn")
-  
-    if (currentUser && currentUser.bookmarks && currentUser.bookmarks.includes(question.id)) {
-      bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Bookmarked'
-      bookmarkBtn.classList.add("active")
-    }
-  
-    // Check if user has voted on this question
-    if (currentUser && question.userVotes) {
-      if (question.userVotes[currentUser.id] === 1) {
-        document.getElementById("upvote-question").classList.add("active")
-      } else if (question.userVotes[currentUser.id] === -1) {
-        document.getElementById("downvote-question").classList.add("active")
+  // Function to load question details from backend
+  async function loadQuestionDetails(questionId) {
+    try {
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}`);
+      if (!response.ok) {
+        document.getElementById("question-title").textContent = "Question not found";
+        return;
       }
-    }
-  
-    // Update author information
-    const mockUsers = JSON.parse(localStorage.getItem("users")) || []
-    const author = mockUsers.find((u) => u.id === question.authorId)
-  
-    if (author) {
-      const authorAvatar = document.getElementById("question-author-avatar")
-      authorAvatar.innerHTML = ""
-      authorAvatar.appendChild(createAvatarElement(author))
-  
-      document.getElementById("question-author-name").textContent = author.name
-      document.getElementById("question-author-college").textContent = author.college || ""
-      document.getElementById("question-time").textContent = `asked ${timeAgo(question.createdAt)}`
-    }
-  
-    // Load comments for the question
-    loadQuestionComments(question)
-  
-    // Update college info in sidebar
-    const mockColleges = JSON.parse(localStorage.getItem("colleges")) || []
-    const college = mockColleges.find((c) => c.id === question.collegeId)
-  
-    if (college) {
-      document.getElementById("sidebar-college-name").textContent = college.name
-      document.getElementById("sidebar-college-description").textContent =
-        college.description || "A place for students to ask and answer questions."
-      document.getElementById("sidebar-college-questions").href = `questions.html?college=${college.id}`
-    }
-  
-    // Increment view count (in a real app, this would be an API call)
-    question.views = (question.views || 0) + 1
-    localStorage.setItem("questions", JSON.stringify(mockQuestions))
-  
-    if (question.user) {
-      // Avatar
-      const avatarDiv = document.getElementById('question-author-avatar');
-      avatarDiv.innerHTML = `<img src="${question.user.avatar || '../assets/default-avatar.jpg'}" alt="${question.user.name}" style="width:40px;height:40px;border-radius:50%;">`;
+      const question = await response.json();
 
-      // Name
-      const nameLink = document.getElementById('question-author-name');
-      nameLink.textContent = question.user.name;
-      nameLink.href = `profile.html?id=${question.user.id}`; // If you have a profile page
+      // Update page title
+      document.title = `${question.title} - College Q&A`;
+      document.getElementById("question-title-breadcrumb").textContent = question.title;
+      document.getElementById("question-title").textContent = question.title;
+      document.getElementById("question-date").textContent = `Asked on: ${formatDate(question.createdAt)}`;
+      document.getElementById("question-views").innerHTML = `<i class="fas fa-eye"></i> ${question.views} views`;
 
-      // Role
-      document.getElementById('question-author-role').textContent = question.user.role || '';
-    } else {
-      // Fallback if user info is missing
-      document.getElementById('question-author-name').textContent = 'Unknown';
-      document.getElementById('question-author-role').textContent = '';
+      // Update question tags
+      const tagsContainer = document.getElementById("question-tags");
+      tagsContainer.innerHTML = "";
+      (question.tags || []).forEach((tag) => {
+        const tagElement = document.createElement("span");
+        tagElement.className = "tag";
+        tagElement.textContent = tag;
+        tagsContainer.appendChild(tagElement);
+      });
+
+      // Update question content
+      document.getElementById("question-text").innerHTML = question.content;
+      document.getElementById("question-vote-count").textContent = question.upvotes || 0;
+
+      // Author info
+      if (question.author) {
+        const avatarDiv = document.getElementById('question-author-avatar');
+        avatarDiv.innerHTML = `<img src="${question.author.avatar || '../assets/default-avatar.jpg'}" alt="${question.author.name || 'User'}" style="width:40px;height:40px;border-radius:50%;">`;
+        const nameLink = document.getElementById('question-author-name');
+        nameLink.textContent = question.author.name || 'User';
+        nameLink.href = `profile.html?id=${question.author._id}`;
+        document.getElementById('question-author-role').textContent = question.author.role || '';
+      } else {
+        document.getElementById('question-author-name').textContent = 'Unknown';
+        document.getElementById('question-author-role').textContent = '';
+      }
+    } catch (error) {
+      document.getElementById("question-title").textContent = "Error loading question";
+    }
+  }
+  
+  // Function to load answers from backend
+  async function loadAnswers(questionId) {
+    const answersContainer = document.getElementById("answers-container");
+    answersContainer.innerHTML = "";
+    try {
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}/answers`);
+      if (!response.ok) {
+        answersContainer.innerHTML = '<div class="no-answers">Error loading answers.</div>';
+        return;
+      }
+      const answers = await response.json();
+      const answersCount = document.getElementById("answers-count");
+      answersCount.textContent = `${answers.length} Answer${answers.length !== 1 ? "s" : ""}`;
+      if (answers.length === 0) {
+        const noAnswers = document.createElement("div");
+        noAnswers.className = "no-answers";
+        noAnswers.textContent = "No answers yet. Be the first to answer!";
+        answersContainer.appendChild(noAnswers);
+        return;
+      }
+      answers.forEach((answer) => {
+        const template = document.getElementById("answer-template");
+        const answerElement = document.importNode(template.content, true);
+        answerElement.querySelector(".answer-text").innerHTML = answer.content;
+        answerElement.querySelector(".vote-count").textContent = answer.upvotes || 0;
+        if (answer.author) {
+          const authorAvatar = answerElement.querySelector(".author-avatar");
+          authorAvatar.innerHTML = `<img src="${answer.author.avatar || '../assets/default-avatar.jpg'}" alt="${answer.author.name || 'User'}" style="width:32px;height:32px;border-radius:50%;">`;
+          answerElement.querySelector(".author-name").textContent = answer.author.name || 'User';
+          answerElement.querySelector(".answered-time").textContent = `answered ${timeAgo(answer.createdAt)}`;
+        }
+        answersContainer.appendChild(answerElement);
+      });
+    } catch (error) {
+      answersContainer.innerHTML = '<div class="no-answers">Error loading answers.</div>';
     }
   }
   
@@ -251,164 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
       commentElement.appendChild(commentMeta)
   
       commentsContainer.appendChild(commentElement)
-    })
-  }
-  
-  // Function to load answers
-  function loadAnswers(questionId) {
-    const answersContainer = document.getElementById("answers-container")
-    answersContainer.innerHTML = ""
-  
-    // In a real application, this would be an API call
-    // For now, we'll simulate with mock data
-    const mockAnswers = JSON.parse(localStorage.getItem("answers")) || []
-    const questionAnswers = mockAnswers.filter(
-      (a) => a.questionId === Number.parseInt(questionId) || a.questionId === questionId,
-    )
-  
-    // Update answer count
-    const answersCount = document.getElementById("answers-count")
-    answersCount.textContent = `${questionAnswers.length} Answer${questionAnswers.length !== 1 ? "s" : ""}`
-  
-    if (questionAnswers.length === 0) {
-      const noAnswers = document.createElement("div")
-      noAnswers.className = "no-answers"
-      noAnswers.textContent = "No answers yet. Be the first to answer!"
-      answersContainer.appendChild(noAnswers)
-      return
-    }
-  
-    const mockUsers = JSON.parse(localStorage.getItem("users")) || []
-    const currentUser = getCurrentUser()
-  
-    // Sort answers based on selected option
-    const sortSelect = document.getElementById("sort-by")
-    const sortValue = sortSelect.value
-  
-    questionAnswers.sort((a, b) => {
-      switch (sortValue) {
-        case "votes":
-          return b.votes - a.votes
-        case "newest":
-          return new Date(b.createdAt) - new Date(a.createdAt)
-        case "oldest":
-          return new Date(a.createdAt) - new Date(b.createdAt)
-        default:
-          return b.votes - a.votes
-      }
-    })
-  
-    questionAnswers.forEach((answer) => {
-      const template = document.getElementById("answer-template")
-      const answerElement = document.importNode(template.content, true)
-  
-      // Set answer content
-      answerElement.querySelector(".answer-text").innerHTML = answer.content
-      answerElement.querySelector(".vote-count").textContent = answer.votes || 0
-  
-      // Set author information
-      const author = mockUsers.find((u) => u.id === answer.authorId)
-  
-      if (author) {
-        const authorAvatar = answerElement.querySelector(".author-avatar")
-        authorAvatar.appendChild(createAvatarElement(author))
-  
-        answerElement.querySelector(".author-name").textContent = author.name
-        answerElement.querySelector(".author-college").textContent = author.college || ""
-        answerElement.querySelector(".answered-time").textContent = `answered ${timeAgo(answer.createdAt)}`
-      }
-  
-      // Check if user has voted on this answer
-      if (currentUser && answer.userVotes) {
-        if (answer.userVotes[currentUser.id] === 1) {
-          answerElement.querySelector(".upvote-answer").classList.add("active")
-        } else if (answer.userVotes[currentUser.id] === -1) {
-          answerElement.querySelector(".downvote-answer").classList.add("active")
-        }
-      }
-  
-      // Add data attributes for vote buttons
-      const upvoteBtn = answerElement.querySelector(".upvote-answer")
-      const downvoteBtn = answerElement.querySelector(".downvote-answer")
-      upvoteBtn.dataset.answerId = answer.id
-      downvoteBtn.dataset.answerId = answer.id
-  
-      // Add event listeners for votes
-      upvoteBtn.addEventListener("click", () => {
-        voteAnswer(answer.id, 1)
-      })
-  
-      downvoteBtn.addEventListener("click", () => {
-        voteAnswer(answer.id, -1)
-      })
-  
-      // Add report button event listener
-      const reportBtn = answerElement.querySelector(".report-answer-btn")
-      reportBtn.dataset.answerId = answer.id
-      reportBtn.addEventListener("click", () => {
-        openReportModal("answer", answer.id)
-      })
-  
-      // Load answer comments
-      const commentsContainer = answerElement.querySelector(".comments-list")
-      loadAnswerComments(answer, commentsContainer)
-  
-      // Add comment button event listener
-      const commentBtn = answerElement.querySelector(".add-answer-comment")
-      const commentText = answerElement.querySelector(".comment-text")
-      commentBtn.dataset.answerId = answer.id
-      commentBtn.addEventListener("click", () => {
-        addComment("answer", answer.id, commentText.value)
-        commentText.value = ""
-      })
-  
-      answersContainer.appendChild(answerElement)
-    })
-  }
-  
-  // Function to load answer comments
-  function loadAnswerComments(answer, container) {
-    container.innerHTML = ""
-  
-    const mockUsers = JSON.parse(localStorage.getItem("users")) || []
-  
-    if (!answer.comments || answer.comments.length === 0) {
-      const noComments = document.createElement("p")
-      noComments.className = "no-comments"
-      noComments.textContent = "No comments yet."
-      container.appendChild(noComments)
-      return
-    }
-  
-    answer.comments.forEach((comment) => {
-      const commentElement = document.createElement("div")
-      commentElement.className = "comment"
-  
-      const commentText = document.createElement("div")
-      commentText.className = "comment-text"
-      commentText.textContent = comment.text
-  
-      const commentMeta = document.createElement("div")
-      commentMeta.className = "comment-meta"
-  
-      const author = mockUsers.find((u) => u.id === comment.authorId)
-      const authorName = author ? author.name : "Anonymous"
-  
-      const commentAuthor = document.createElement("span")
-      commentAuthor.className = "comment-author"
-      commentAuthor.textContent = authorName
-  
-      const commentTime = document.createElement("span")
-      commentTime.className = "comment-time"
-      commentTime.textContent = timeAgo(comment.createdAt)
-  
-      commentMeta.appendChild(commentAuthor)
-      commentMeta.appendChild(commentTime)
-  
-      commentElement.appendChild(commentText)
-      commentElement.appendChild(commentMeta)
-  
-      container.appendChild(commentElement)
     })
   }
   
@@ -590,45 +410,69 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to setup event listeners
   function setupEventListeners(questionId) {
     // Vote buttons for question
-    document.getElementById("upvote-question").addEventListener("click", () => {
-      voteQuestion(questionId, 1)
-    })
+    const upvoteBtn = document.getElementById("upvote-question")
+    if (upvoteBtn) {
+      upvoteBtn.addEventListener("click", () => {
+        voteQuestion(questionId, 1)
+      })
+    }
   
-    document.getElementById("downvote-question").addEventListener("click", () => {
-      voteQuestion(questionId, -1)
-    })
+    const downvoteBtn = document.getElementById("downvote-question")
+    if (downvoteBtn) {
+      downvoteBtn.addEventListener("click", () => {
+        voteQuestion(questionId, -1)
+      })
+    }
   
     // Bookmark button
-    document.getElementById("bookmark-btn").addEventListener("click", () => {
-      toggleBookmark(questionId)
-    })
+    const bookmarkBtn = document.getElementById("bookmark-btn")
+    if (bookmarkBtn) {
+      bookmarkBtn.addEventListener("click", () => {
+        toggleBookmark(questionId)
+      })
+    }
   
     // Share button
-    document.getElementById("share-btn").addEventListener("click", () => {
-      openShareModal(questionId)
-    })
+    const shareBtn = document.getElementById("share-btn")
+    if (shareBtn) {
+      shareBtn.addEventListener("click", () => {
+        openShareModal(questionId)
+      })
+    }
   
     // Report button
-    document.getElementById("report-btn").addEventListener("click", () => {
-      openReportModal("question", questionId)
-    })
+    const reportBtn = document.getElementById("report-btn")
+    if (reportBtn) {
+      reportBtn.addEventListener("click", () => {
+        openReportModal("question", questionId)
+      })
+    }
   
     // Add comment to question
-    document.getElementById("add-question-comment").addEventListener("click", () => {
-      const commentText = document.getElementById("question-comment-text").value
-      addComment("question", questionId, commentText)
-      document.getElementById("question-comment-text").value = ""
-    })
+    const addQuestionComment = document.getElementById("add-question-comment")
+    if (addQuestionComment) {
+      addQuestionComment.addEventListener("click", () => {
+        const commentText = document.getElementById("question-comment-text").value
+        addComment("question", questionId, commentText)
+        document.getElementById("question-comment-text").value = ""
+      })
+    }
   
     // Post answer button
-    document.getElementById("post-answer-btn").addEventListener("click", () => {
-      postAnswer(questionId)
-    })
+    const postAnswerBtn = document.getElementById("post-answer-btn")
+    if (postAnswerBtn) {
+      postAnswerBtn.addEventListener("click", () => {
+        postAnswer(questionId)
+      })
+    }
   
     // Sort answers select
-    document.getElementById("sort-by").addEventListener("change", () => {
-      loadAnswers(questionId)
-    })
+    const sortBy = document.getElementById("sort-by")
+    if (sortBy) {
+      sortBy.addEventListener("change", () => {
+        loadAnswers(questionId)
+      })
+    }
   
     // Close modals when clicking on X or outside
     const modals = document.querySelectorAll(".modal")
@@ -651,18 +495,24 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   
     // Copy link button in share modal
-    document.getElementById("copy-link-btn").addEventListener("click", () => {
-      const shareLink = document.getElementById("share-link")
-      shareLink.select()
-      document.execCommand("copy")
-      alert("Link copied to clipboard!")
-    })
+    const copyLinkBtn = document.getElementById("copy-link-btn")
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener("click", () => {
+        const shareLink = document.getElementById("share-link")
+        shareLink.select()
+        document.execCommand("copy")
+        alert("Link copied to clipboard!")
+      })
+    }
   
     // Report form submission
-    document.getElementById("report-form").addEventListener("submit", (e) => {
-      e.preventDefault()
-      submitReport()
-    })
+    const reportForm = document.getElementById("report-form")
+    if (reportForm) {
+      reportForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        submitReport()
+      })
+    }
   }
   
   // Function to vote on question
@@ -710,82 +560,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update UI
     document.getElementById("question-vote-count").textContent = question.votes
   
-    const upvoteBtn = document.getElementById("upvote-question")
-    const downvoteBtn = document.getElementById("downvote-question")
-  
-    upvoteBtn.classList.remove("active")
-    downvoteBtn.classList.remove("active")
+    if (upvoteBtn) {
+      upvoteBtn.classList.remove("active")
+      downvoteBtn.classList.remove("active")
+    }
   
     if (question.userVotes[currentUser.id] === 1) {
-      upvoteBtn.classList.add("active")
-    } else if (question.userVotes[currentUser.id] === -1) {
-      downvoteBtn.classList.add("active")
-    }
-  }
-  
-  // Function to vote on answer
-  function voteAnswer(answerId, voteType) {
-    const currentUser = getCurrentUser()
-  
-    if (!currentUser) {
-      alert("Please log in to vote")
-      return
-    }
-  
-    // In a real application, this would be an API call
-    // For now, we'll simulate with localStorage
-    const mockAnswers = JSON.parse(localStorage.getItem("answers")) || []
-    const answerIndex = mockAnswers.findIndex((a) => a.id === Number.parseInt(answerId) || a.id === answerId)
-  
-    if (answerIndex === -1) return
-  
-    const answer = mockAnswers[answerIndex]
-  
-    // Initialize userVotes if it doesn't exist
-    if (!answer.userVotes) {
-      answer.userVotes = {}
-    }
-  
-    const currentVote = answer.userVotes[currentUser.id] || 0
-    let voteChange = 0
-  
-    if (currentVote === voteType) {
-      // User is canceling their vote
-      answer.userVotes[currentUser.id] = 0
-      voteChange = -voteType
-    } else {
-      // User is changing their vote or voting for the first time
-      voteChange = voteType - currentVote
-      answer.userVotes[currentUser.id] = voteType
-    }
-  
-    // Update vote count
-    answer.votes = (answer.votes || 0) + voteChange
-  
-    // Save to localStorage
-    localStorage.setItem("answers", JSON.stringify(mockAnswers))
-  
-    // Update UI - find the specific answer in the DOM and update it
-    const answersContainer = document.getElementById("answers-container")
-    const answerElements = answersContainer.querySelectorAll(".answer")
-  
-    answerElements.forEach((element) => {
-      const upvoteBtn = element.querySelector(".upvote-answer")
-      const downvoteBtn = element.querySelector(".downvote-answer")
-  
-      if (upvoteBtn.dataset.answerId === answerId.toString()) {
-        element.querySelector(".vote-count").textContent = answer.votes
-  
-        upvoteBtn.classList.remove("active")
-        downvoteBtn.classList.remove("active")
-  
-        if (answer.userVotes[currentUser.id] === 1) {
-          upvoteBtn.classList.add("active")
-        } else if (answer.userVotes[currentUser.id] === -1) {
-          downvoteBtn.classList.add("active")
-        }
+      if (upvoteBtn) {
+        upvoteBtn.classList.add("active")
       }
-    })
+    } else if (question.userVotes[currentUser.id] === -1) {
+      if (downvoteBtn) {
+        downvoteBtn.classList.add("active")
+      }
+    }
   }
   
   // Function to toggle bookmark
@@ -818,5 +606,44 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+  
+  // Function to post an answer to the backend
+  async function postAnswer(questionId) {
+    const answerInput = document.getElementById('answer-text');
+    const answerContent = answerInput ? answerInput.value.trim() : '';
+    if (!answerContent) {
+      alert('Please enter your answer.');
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to post an answer.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}/answers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content: answerContent })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to post answer');
+      }
+
+      // Clear the input and reload answers
+      if (answerInput) answerInput.value = '';
+      loadAnswers(questionId);
+      alert('Your answer has been posted!');
+    } catch (error) {
+      alert(error.message || 'Error posting answer.');
+    }
   }
   
