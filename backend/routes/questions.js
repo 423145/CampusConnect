@@ -3,6 +3,7 @@ const router = express.Router();
 const Question = require('../models/Question');
 const jwt = require('jsonwebtoken');
 const Answer = require('../models/Answer');
+const Comment = require('../models/Comment');
 
 // GET /api/questions
 router.get('/', async (req, res) => {
@@ -223,6 +224,120 @@ router.get('/:id/answers', async (req, res) => {
     } catch (error) {
         console.error('Error fetching answers:', error);
         res.status(500).json({ message: 'Error fetching answers', error: error.message });
+    }
+});
+
+// POST /api/questions/:id/comments - Add a comment to a question
+router.post('/:id/comments', async (req, res) => {
+    try {
+        const { content } = req.body;
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const author = decoded.userId;
+        const questionId = req.params.id;
+        if (!content || !questionId) {
+            return res.status(400).json({ message: 'Content and question ID are required' });
+        }
+        // Ensure the question exists
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        const comment = new Comment({
+            parentType: 'Question',
+            parentId: questionId,
+            content,
+            author
+        });
+        const savedComment = await comment.save();
+        await savedComment.populate('author', 'name avatar');
+        res.status(201).json(savedComment);
+    } catch (error) {
+        console.error('Error posting comment:', error);
+        res.status(500).json({ message: 'Error posting comment', error: error.message });
+    }
+});
+
+// GET /api/questions/:id/comments - Get all comments for a question
+router.get('/:id/comments', async (req, res) => {
+    try {
+        const questionId = req.params.id;
+        const comments = await Comment.find({ parentType: 'Question', parentId: questionId })
+            .populate('author', 'name avatar')
+            .sort({ createdAt: 1 });
+        res.json(comments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ message: 'Error fetching comments', error: error.message });
+    }
+});
+
+// POST /api/answers/:id/comments - Add a comment to an answer
+router.post('/answers/:id/comments', async (req, res) => {
+    try {
+        const { content } = req.body;
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const author = decoded.userId;
+        const answerId = req.params.id;
+        if (!content || !answerId) {
+            return res.status(400).json({ message: 'Content and answer ID are required' });
+        }
+        // Ensure the answer exists
+        const answer = await Answer.findById(answerId);
+        if (!answer) {
+            return res.status(404).json({ message: 'Answer not found' });
+        }
+        const comment = new Comment({
+            parentType: 'Answer',
+            parentId: answerId,
+            content,
+            author
+        });
+        const savedComment = await comment.save();
+        await savedComment.populate('author', 'name avatar');
+        res.status(201).json(savedComment);
+    } catch (error) {
+        console.error('Error posting comment:', error);
+        res.status(500).json({ message: 'Error posting comment', error: error.message });
+    }
+});
+
+// GET /api/answers/:id/comments - Get all comments for an answer
+router.get('/answers/:id/comments', async (req, res) => {
+    try {
+        const answerId = req.params.id;
+        console.log('Fetching comments for answerId:', answerId);
+        const answer = await Answer.findById(answerId);
+        console.log('Answer found:', answer);
+        if (!answer) {
+            return res.status(404).json({ message: 'Answer not found' });
+        }
+        const comments = await Comment.find({ parentType: 'Answer', parentId: answerId })
+            .populate('author', 'name avatar')
+            .sort({ createdAt: 1 });
+        res.json(comments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ message: 'Error fetching comments', error: error.message });
     }
 });
 

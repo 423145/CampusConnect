@@ -10,6 +10,7 @@ const path = require('path');
 const auth = require('./middleware/auth');
 const User = require('./models/User');
 const Question = require('./models/Question');
+const answersRouter = require('./routes/answers');
 
 // College Schema
 const collegeSchema = new mongoose.Schema({
@@ -169,6 +170,7 @@ const userRoutes = require('./routes/users');
 app.use('/api/questions', questionsRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/answers', answersRouter);
 
 // IMPORTANT: We're commenting out the direct endpoint since we're now using the one in auth routes
 /* 

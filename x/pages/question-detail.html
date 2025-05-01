@@ -74,7 +74,16 @@
                         <div class="asked-time" id="question-time">asked 1 day ago</div>
                     </div>
                     
-               
+                </div>
+            </div>
+
+            <!-- Question Comments Section -->
+            <div class="question-comments-section">
+                <h3>Comments</h3>
+                <div id="question-comments-list"></div>
+                <div id="question-comment-form">
+                    <textarea id="question-comment-text" placeholder="Add a comment..."></textarea>
+                    <button id="add-question-comment" class="secondary-btn">Post Comment</button>
                 </div>
             </div>
 
@@ -198,41 +207,23 @@
     <template id="answer-template">
         <div class="answer">
             <div class="vote-controls">
-                <button class="vote-btn upvote-answer">
-                    <i class="fas fa-chevron-up"></i>
-                </button>
+                <button class="upvote-answer-btn vote-btn"><i class="fas fa-chevron-up"></i></button>
                 <span class="vote-count">0</span>
-                <button class="vote-btn downvote-answer">
-                    <i class="fas fa-chevron-down"></i>
-                </button>
+                <button class="downvote-answer-btn vote-btn"><i class="fas fa-chevron-down"></i></button>
             </div>
-            
             <div class="answer-content">
-                <div class="answer-text"></div>
-                
-                <div class="answer-author">
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <div class="author-details">
-                            <div class="author-name"></div>
-                            <div class="author-college"></div>
-                        </div>
-                    </div>
-                    <div class="answered-time"></div>
+                <div class="answer-text">Loading...</div>
+                <div class="answer-meta">
+                    <div class="author-avatar"></div>
+                    <span class="author-name">User</span>
+                    <span class="answered-time">answered just now</span>
                 </div>
-                
-                <div class="answer-actions">
-                    <button class="action-btn report-answer-btn">
-                        <i class="fas fa-flag"></i> Report
-                    </button>
-                </div>
-                
-                <div class="answer-comments">
-                    <h4>Comments</h4>
-                    <div class="comments-list"></div>
-                    <div class="add-comment">
-                        <textarea class="comment-text" placeholder="Add a comment..."></textarea>
-                        <button class="comment-btn add-answer-comment">Add Comment</button>
+                <!-- Answer Comments Section -->
+                <div class="answer-comments-section">
+                    <div class="answer-comments-list"></div>
+                    <div class="answer-comment-form">
+                        <textarea class="answer-comment-text" placeholder="Add a comment..."></textarea>
+                        <button class="add-answer-comment secondary-btn">Post Comment</button>
                     </div>
                 </div>
             </div>

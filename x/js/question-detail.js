@@ -101,21 +101,26 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Function to load question details from backend
   async function loadQuestionDetails(questionId) {
+    let question = null;
     try {
       const response = await fetch(`http://localhost:3000/api/questions/${questionId}`);
       if (!response.ok) {
         document.getElementById("question-title").textContent = "Question not found";
         return;
       }
-      const question = await response.json();
-
-      // Update page title
+      question = await response.json();
+    } catch (error) {
+      console.error('Error fetching question:', error);
+      document.getElementById("question-title").textContent = "Error loading question";
+      return;
+    }
+    // Now update the UI, but catch any DOM errors separately
+    try {
       document.title = `${question.title} - College Q&A`;
       document.getElementById("question-title-breadcrumb").textContent = question.title;
       document.getElementById("question-title").textContent = question.title;
       document.getElementById("question-date").textContent = `Asked on: ${formatDate(question.createdAt)}`;
-      document.getElementById("question-views").innerHTML = `<i class="fas fa-eye"></i> ${question.views} views`;
-
+      document.getElementById("question-views").innerHTML = `<i class=\"fas fa-eye\"></i> ${question.views} views`;
       // Update question tags
       const tagsContainer = document.getElementById("question-tags");
       tagsContainer.innerHTML = "";
@@ -125,25 +130,34 @@ document.addEventListener("DOMContentLoaded", () => {
         tagElement.textContent = tag;
         tagsContainer.appendChild(tagElement);
       });
-
       // Update question content
       document.getElementById("question-text").innerHTML = question.content;
       document.getElementById("question-vote-count").textContent = question.upvotes || 0;
-
       // Author info
-      if (question.author) {
-        const avatarDiv = document.getElementById('question-author-avatar');
-        avatarDiv.innerHTML = `<img src="${question.author.avatar || '../assets/default-avatar.jpg'}" alt="${question.author.name || 'User'}" style="width:40px;height:40px;border-radius:50%;">`;
-        const nameLink = document.getElementById('question-author-name');
-        nameLink.textContent = question.author.name || 'User';
+      const nameLink = document.getElementById('question-author-name');
+      if (question.author && question.author.name) {
+        nameLink.textContent = question.author.name;
         nameLink.href = `profile.html?id=${question.author._id}`;
-        document.getElementById('question-author-role').textContent = question.author.role || '';
       } else {
-        document.getElementById('question-author-name').textContent = 'Unknown';
-        document.getElementById('question-author-role').textContent = '';
+        nameLink.textContent = 'User';
+        nameLink.removeAttribute('href');
       }
+      const avatarDiv = document.getElementById('question-author-avatar');
+      if (question.author && question.author.avatar) {
+        avatarDiv.innerHTML = `<img src="${question.author.avatar}" alt="${question.author.name || 'User'}" style="width:40px;height:40px;border-radius:50%;">`;
+      } else {
+        avatarDiv.innerHTML = `<img src="../assets/default-avatar.jpg" alt="User" style="width:40px;height:40px;border-radius:50%;">`;
+      }
+      // Remove or update author role/college if needed
+      const roleDiv = document.getElementById('question-author-role');
+      if (roleDiv) roleDiv.textContent = question.author && question.author.role ? question.author.role : '';
+      const collegeDiv = document.getElementById('question-author-college');
+      if (collegeDiv) collegeDiv.textContent = question.college || '';
+      // Load comments for this question
+      loadQuestionComments(questionId);
     } catch (error) {
-      document.getElementById("question-title").textContent = "Error loading question";
+      console.error('Error updating question UI:', error);
+      // Do not overwrite the title if the data loaded
     }
   }
   
@@ -178,6 +192,15 @@ document.addEventListener("DOMContentLoaded", () => {
           answerElement.querySelector(".author-name").textContent = answer.author.name || 'User';
           answerElement.querySelector(".answered-time").textContent = `answered ${timeAgo(answer.createdAt)}`;
         }
+        // Comment section for this answer
+        const commentsListDiv = answerElement.querySelector('.answer-comments-list');
+        loadAnswerComments(answer._id, commentsListDiv);
+        // Post comment for this answer
+        const commentBtn = answerElement.querySelector('.add-answer-comment');
+        const commentTextarea = answerElement.querySelector('.answer-comment-text');
+        commentBtn.addEventListener('click', () => {
+          postAnswerComment(answer._id, commentTextarea, commentsListDiv);
+        });
         answersContainer.appendChild(answerElement);
       });
     } catch (error) {
@@ -186,50 +209,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Function to load question comments
-  function loadQuestionComments(question) {
-    const commentsContainer = document.getElementById("question-comments-list")
-    commentsContainer.innerHTML = ""
-  
-    const mockUsers = JSON.parse(localStorage.getItem("users")) || []
-  
-    if (!question.comments || question.comments.length === 0) {
-      const noComments = document.createElement("p")
-      noComments.className = "no-comments"
-      noComments.textContent = "No comments yet."
-      commentsContainer.appendChild(noComments)
-      return
+  async function loadQuestionComments(questionId) {
+    const commentsContainer = document.getElementById('question-comments-list');
+    commentsContainer.innerHTML = '';
+    try {
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}/comments`);
+      if (!response.ok) {
+        commentsContainer.innerHTML = '<div class="no-comments">Error loading comments.</div>';
+        return;
+      }
+      const comments = await response.json();
+      if (comments.length === 0) {
+        commentsContainer.innerHTML = '<div class="no-comments">No comments yet.</div>';
+        return;
+      }
+      comments.forEach(comment => {
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment';
+        commentDiv.innerHTML = `<span class="comment-author">${comment.author?.name || 'User'}</span>: <span class="comment-content">${comment.content}</span> <span class="comment-time">${timeAgo(comment.createdAt)}</span>`;
+        commentsContainer.appendChild(commentDiv);
+      });
+    } catch (error) {
+      commentsContainer.innerHTML = '<div class="no-comments">Error loading comments.</div>';
     }
-  
-    question.comments.forEach((comment) => {
-      const commentElement = document.createElement("div")
-      commentElement.className = "comment"
-  
-      const commentText = document.createElement("div")
-      commentText.className = "comment-text"
-      commentText.textContent = comment.text
-  
-      const commentMeta = document.createElement("div")
-      commentMeta.className = "comment-meta"
-  
-      const author = mockUsers.find((u) => u.id === comment.authorId)
-      const authorName = author ? author.name : "Anonymous"
-  
-      const commentAuthor = document.createElement("span")
-      commentAuthor.className = "comment-author"
-      commentAuthor.textContent = authorName
-  
-      const commentTime = document.createElement("span")
-      commentTime.className = "comment-time"
-      commentTime.textContent = timeAgo(comment.createdAt)
-  
-      commentMeta.appendChild(commentAuthor)
-      commentMeta.appendChild(commentTime)
-  
-      commentElement.appendChild(commentText)
-      commentElement.appendChild(commentMeta)
-  
-      commentsContainer.appendChild(commentElement)
-    })
   }
   
   // Function to load related questions
@@ -449,13 +451,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     // Add comment to question
-    const addQuestionComment = document.getElementById("add-question-comment")
-    if (addQuestionComment) {
-      addQuestionComment.addEventListener("click", () => {
-        const commentText = document.getElementById("question-comment-text").value
-        addComment("question", questionId, commentText)
-        document.getElementById("question-comment-text").value = ""
-      })
+    const addQuestionCommentBtn = document.getElementById('add-question-comment');
+    if (addQuestionCommentBtn) {
+      addQuestionCommentBtn.addEventListener('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const questionId = urlParams.get('id');
+        postQuestionComment(questionId);
+      });
     }
   
     // Post answer button
@@ -644,6 +646,98 @@ document.addEventListener("DOMContentLoaded", () => {
       alert('Your answer has been posted!');
     } catch (error) {
       alert(error.message || 'Error posting answer.');
+    }
+  }
+  
+  // --- COMMENT FUNCTIONALITY ---
+
+  // Load comments for an answer
+  async function loadAnswerComments(answerId, commentsListDiv) {
+    commentsListDiv.innerHTML = '';
+    try {
+      const response = await fetch(`http://localhost:3000/api/answers/${answerId}/comments`);
+      if (!response.ok) {
+        commentsListDiv.innerHTML = '<div class="no-comments">Error loading comments.</div>';
+        return;
+      }
+      const comments = await response.json();
+      if (comments.length === 0) {
+        commentsListDiv.innerHTML = '<div class="no-comments">No comments yet.</div>';
+        return;
+      }
+      comments.forEach(comment => {
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment';
+        commentDiv.innerHTML = `<span class="comment-author">${comment.author?.name || 'User'}</span>: <span class="comment-content">${comment.content}</span> <span class="comment-time">${timeAgo(comment.createdAt)}</span>`;
+        commentsListDiv.appendChild(commentDiv);
+      });
+    } catch (error) {
+      commentsListDiv.innerHTML = '<div class="no-comments">Error loading comments.</div>';
+    }
+  }
+
+  // Post a comment to an answer
+  async function postAnswerComment(answerId, textarea, commentsListDiv) {
+    const content = textarea.value.trim();
+    if (!content) {
+      alert('Please enter a comment.');
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to comment.');
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:3000/api/answers/${answerId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content })
+      });
+      if (!response.ok) {
+        alert('Error posting comment.');
+        return;
+      }
+      textarea.value = '';
+      loadAnswerComments(answerId, commentsListDiv);
+    } catch (error) {
+      alert('Error posting comment.');
+    }
+  }
+
+  // Post a comment to a question
+  async function postQuestionComment(questionId) {
+    const textarea = document.getElementById('question-comment-text');
+    const content = textarea.value.trim();
+    if (!content) {
+      alert('Please enter a comment.');
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to comment.');
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content })
+      });
+      if (!response.ok) {
+        alert('Error posting comment.');
+        return;
+      }
+      textarea.value = '';
+      loadQuestionComments(questionId);
+    } catch (error) {
+      alert('Error posting comment.');
     }
   }
   
