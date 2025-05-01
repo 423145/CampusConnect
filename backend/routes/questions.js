@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
+const jwt = require('jsonwebtoken');
 
 // GET /api/questions
 router.get('/', async (req, res) => {
@@ -64,9 +65,9 @@ router.get('/trending', async (req, res) => {
             upvotes: q.upvotes,
             answers: q.answers,
             createdAt: q.createdAt,
-            userName: q.author.fullName,
-            userRole: q.author.role || 'student',
-            userId: q.author._id
+            userName: q.author ? q.author.fullName : 'Unknown',
+            userRole: q.author ? (q.author.role || 'student') : 'student',
+            userId: q.author ? q.author._id : null
         }));
 
         res.json(transformedQuestions);
@@ -115,9 +116,9 @@ router.get('/user', async (req, res) => {
             upvotes: q.upvotes,
             answers: q.answers,
             createdAt: q.createdAt,
-            userName: q.author.fullName,
-            userRole: q.author.role || 'student',
-            userId: q.author._id
+            userName: q.author ? q.author.fullName : 'Unknown',
+            userRole: q.author ? (q.author.role || 'student') : 'student',
+            userId: q.author ? q.author._id : null
         }));
 
         res.json(transformedQuestions);
@@ -127,6 +128,44 @@ router.get('/user', async (req, res) => {
             message: 'Error fetching user questions',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
+    }
+});
+
+// POST /api/questions
+router.post('/', async (req, res) => {
+    try {
+        const { title, content, tags, college } = req.body;
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const author = decoded.userId;
+
+        if (!title || !content) {
+            return res.status(400).json({ message: 'Title and content are required' });
+        }
+
+        const question = new Question({
+            title,
+            content,
+            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+            college,
+            author
+        });
+
+        const savedQuestion = await question.save();
+        await savedQuestion.populate('author', 'name avatar');
+        res.status(201).json(savedQuestion);
+    } catch (error) {
+        console.error('Error creating question:', error);
+        res.status(500).json({ message: 'Error creating question', error: error.message });
     }
 });
 
