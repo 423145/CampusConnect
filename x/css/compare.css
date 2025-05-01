@@ -1,0 +1,259 @@
+/* College Comparison Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.compare-header {
+    margin-bottom: 2rem;
+}
+
+.compare-header h1 {
+    margin-bottom: 0.5rem;
+}
+
+.compare-header p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.compare-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.compare-container {
+    overflow-x: auto;
+    margin-bottom: 3rem;
+}
+
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border-color);
+    background-color: white;
+}
+
+.compare-table th,
+.compare-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.compare-table th {
+    background-color: var(--bg-light);
+    font-weight: 600;
+    min-width: 200px;
+}
+
+.compare-table td {
+    min-width: 250px;
+}
+
+.college-header {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.college-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.college-header h3 {
+    margin-bottom: 0.5rem;
+}
+
+.college-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.feature-available {
+    color: var(--success-color);
+}
+
+.feature-unavailable {
+    color: var(--danger-color);
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.rating-stars {
+    color: var(--warning-color);
+    margin-right: 0.5rem;
+}
+
+.rating-value {
+    font-weight: 600;
+}
+
+.highlight {
+    background-color: rgba(74, 107, 255, 0.1);
+    font-weight: 600;
+}
+
+/* Section Tabs */
+.compare-sections {
+    margin-top: 3rem;
+}
+
+.compare-sections h2 {
+    margin-bottom: 1.5rem;
+}
+
+.section-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+}
+
+.section-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.section-tab:hover {
+    color: var(--primary-color);
+}
+
+.section-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.section-content {
+    margin-bottom: 3rem;
+}
+
+/* Charts and Graphs */
+.chart-container {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.chart-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.chart-header h3 {
+    margin-bottom: 0.5rem;
+}
+
+.chart-header p {
+    color: var(--text-light);
+}
+
+.chart {
+    height: 400px;
+    width: 100%;
+}
+
+/* Course Comparison */
+.course-comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.course-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.course-card h4 {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.course-card h4 img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.course-details {
+    margin-bottom: 1rem;
+}
+
+.course-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.course-detail:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--text-light);
+}
+
+.detail-value {
+    font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .section-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .section-tab {
+        flex: 1;
+        text-align: center;
+        padding: 1rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .compare-actions {
+        flex-direction: column;
+    }
+    
+    .compare-table th {
+        min-width: 150px;
+    }
+    
+    .compare-table td {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .section-tab {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+}

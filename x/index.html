@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - College Q&A Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>CampusConnect</h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="pages/colleges.html">Colleges</a></li>
+                    <li><a href="pages/questions.html">Q&A</a></li>
+                    <li><a href="pages/about.html">About</a></li>
+                    <li id="adminSection" style="display: none;">
+                        <a href="admin/html/dashboard.html" class="admin-link">
+                            <i class="fas fa-user-shield"></i> Admin Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="pages/login.html" class="btn btn-outline">Log In</a>
+                <a href="pages/signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="user-avatar">
+                    <img src="" alt="" id="headerAvatar">
+                </div>
+                <div class="dropdown-menu">
+                    <a href="pages/profile.html" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        My Profile
+                    </a>
+                    <a href="pages/notifications.html" class="dropdown-item">
+                        <i class="fas fa-bell"></i>
+                        Notifications
+                        <span class="notification-badge" style="display: none;">0</span>
+                    </a>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Connect with Real College Students</h1>
+            <p>Get authentic answers about college life, academics, and more from verified current students.</p>
+            <div class="search-container">
+                <input type="text" placeholder="Search colleges or questions...">
+                <button class="btn btn-primary">Search</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Colleges</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">10k+</span>
+                    <span class="stat-label">Questions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">5k+</span>
+                    <span class="stat-label">Verified Students</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="assets/hero-image.jpg" alt="Students discussing on campus">
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>Why Choose CampusConnect?</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <i class="fas fa-user-check"></i>
+                <h3>Verified Students</h3>
+                <p>All answers come from verified current students with valid college email addresses.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comments"></i>
+                <h3>Real Conversations</h3>
+                <p>Engage in authentic discussions about college life, academics, and campus culture.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-university"></i>
+                <h3>College Comparison</h3>
+                <p>Compare colleges side-by-side to make informed decisions about your future.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="trending">
+        <h2>Trending Questions</h2>
+        <div class="question-cards">
+            <div class="question-card">
+                <div class="question-header">
+                    <img src="assets/avatar1.jpg" alt="User avatar" class="avatar">
+                    <div class="question-meta">
+                        <h3>How difficult is the Computer Science program at NIT Andhra?</h3>
+                        <span class="college-tag">NIT Andhra Pradesh</span>
+                        <span class="time">Posted 2 days ago</span>
+                    </div>
+                </div>
+                <div class="question-stats">
+                    <span><i class="fas fa-comment"></i> 15 answers</span>
+                    <span><i class="fas fa-eye"></i> 230 views</span>
+                </div>
+                <a href="pages/question-detail.html" class="btn btn-outline btn-sm">View Answers</a>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <img src="assets/avatar2.jpg" alt="User avatar" class="avatar">
+                    <div class="question-meta">
+                        <h3>What are the housing options for first-year students?</h3>
+                        <span class="college-tag">Multiple Colleges</span>
+                        <span class="time">Posted 3 days ago</span>
+                    </div>
+                </div>
+                <div class="question-stats">
+                    <span><i class="fas fa-comment"></i> 23 answers</span>
+                    <span><i class="fas fa-eye"></i> 412 views</span>
+                </div>
+                <a href="pages/question-detail.html" class="btn btn-outline btn-sm">View Answers</a>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <img src="assets/avatar3.jpg" alt="User avatar" class="avatar">
+                    <div class="question-meta">
+                        <h3>How is the placement record for Mechanical Engineering?</h3>
+                        <span class="college-tag">NIT Andhra Pradesh</span>
+                        <span class="time">Posted 1 week ago</span>
+                    </div>
+                </div>
+                <div class="question-stats">
+                    <span><i class="fas fa-comment"></i> 18 answers</span>
+                    <span><i class="fas fa-eye"></i> 356 views</span>
+                </div>
+                <a href="pages/question-detail.html" class="btn btn-outline btn-sm">View Answers</a>
+            </div>
+        </div>
+        <div class="view-more">
+            <a href="pages/questions.html" class="btn btn-outline">View More Questions</a>
+        </div>
+    </section>
+
+    <section class="popular-colleges">
+        <h2>Popular Colleges</h2>
+        <div class="colleges-container">
+            <!-- College cards will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="cta-content">
+            <h2>Join Our Community Today</h2>
+            <p>Connect with real students, ask questions, and get the authentic information you need to make informed decisions about your education.</p>
+            <div class="cta-buttons">
+                <a href="pages/signup.html" class="btn btn-primary">Sign Up Now</a>
+                <a href="pages/about.html" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About CampusConnect</h3>
+                <p>Your trusted platform for college-related questions and answers.</p>
+            </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="pages/about.html">About Us</a></li>
+                    <li><a href="pages/contact.html">Contact</a></li>
+                        <li><a href="pages/faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/header.js"></script>
+    <script src="js/login-detector.js"></script>
+    <script type="module" src="js/admin-auth.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/index-admin.js"></script>
+    
+    <script>
+        // Add event listener for header state updates
+        document.addEventListener('headerStateUpdated', function(event) {
+            console.log('Index page received headerStateUpdated event', event.detail);
+            // You can update page-specific elements here based on login state
+            
+            const isLoggedIn = event.detail.isLoggedIn;
+            const userData = event.detail.userData;
+            
+            // Example: Update any elements in the body that depend on login state
+            const ctaSection = document.querySelector('.cta');
+            if (ctaSection && isLoggedIn) {
+                const h2 = ctaSection.querySelector('h2');
+                if (h2) {
+                    h2.textContent = `Welcome back, ${userData.name || 'User'}!`;
+                }
+                
+                const ctaButtons = ctaSection.querySelector('.cta-buttons');
+                if (ctaButtons) {
+                    // Show different buttons for logged-in users
+                    ctaButtons.innerHTML = `
+                        <a href="pages/profile.html" class="btn btn-primary">View Your Profile</a>
+                        <a href="pages/questions.html" class="btn btn-outline">Browse Questions</a>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

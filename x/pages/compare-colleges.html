@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Colleges - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/compare.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CampusConnect</a></h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="colleges.html" class="active">Colleges</a></li>
+                    <li><a href="questions.html">Q&A</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="compare-header">
+            <h1>Compare Colleges</h1>
+            <p>Side-by-side comparison of your selected colleges</p>
+            
+            <div class="compare-actions">
+                <button class="btn btn-outline" id="backToColleges">
+                    <i class="fas fa-arrow-left"></i> Back to Colleges
+                </button>
+                <button class="btn btn-primary" id="printCompare">
+                    <i class="fas fa-print"></i> Print Comparison
+                </button>
+            </div>
+        </div>
+        
+        <div class="compare-container" id="compareContainer">
+            <!-- Comparison table will be loaded dynamically via JavaScript -->
+        </div>
+        
+        <div class="compare-sections">
+            <h2>Detailed Comparison</h2>
+            
+            <div class="section-tabs">
+                <button class="section-tab active" data-section="overview">Overview</button>
+                <button class="section-tab" data-section="academics">Academics</button>
+                <button class="section-tab" data-section="campus">Campus Life</button>
+                <button class="section-tab" data-section="admissions">Admissions</button>
+                <button class="section-tab" data-section="placements">Placements</button>
+            </div>
+            
+            <div class="section-content" id="sectionContent">
+                <!-- Section content will be loaded dynamically via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>CampusConnect</h2>
+                <p>Connecting prospective students with authentic college experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="colleges.html">Colleges</a></li>
+                        <li><a href="questions.html">Q&A</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="guidelines.html">Community Guidelines</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:support@campusconnect.com">support@campusconnect.com</a></li>
+                        <li><a href="tel:+1234567890">+123 456 7890</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/compare.js"></script>
+</body>
+</html>

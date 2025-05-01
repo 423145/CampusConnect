@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>CampusConnect</h1>
+                <p>Admin Panel</p>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="users.html">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="colleges.html">
+                            <i class="fas fa-university"></i>
+                            <span>College Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="questions.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Q&A Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-flag"></i>
+                            <span>Reports & Flags</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="verification.html">
+                            <i class="fas fa-user-check"></i>
+                            <span>User Verification</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="admin-sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Site</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="breadcrumbs">
+                    <a href="dashboard.html">Dashboard</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>My Profile</span>
+                </div>
+                
+                <div class="admin-header-right">
+                    <div class="notifications">
+                        <a href="#" class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </a>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <a href="#">Mark all as read</a>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-flag"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New content flagged for review</p>
+                                        <span class="notification-time">2 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New user registration: John Smith</p>
+                                        <span class="notification-time">1 hour ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>System alert: Database backup completed</p>
+                                        <span class="notification-time">3 hours ago</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New verification request pending</p>
+                                        <span class="notification-time">Yesterday</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="notifications.html">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-profile">
+                        <a href="#" class="admin-profile-toggle">
+                            <div class="admin-avatar">
+                                <span>A</span>
+                            </div>
+                            <span class="admin-name">Michael Brown</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="admin-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="profile.html">
+                                        <i class="fas fa-user"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="admin-logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar-container">
+                            <div class="profile-avatar">
+                                <span>MB</span>
+                            </div>
+                            <button class="change-avatar-btn">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <div class="profile-info">
+                            <h1>Michael Brown</h1>
+                            <p class="profile-role">Administrator</p>
+                            <p class="profile-email">michael.brown@example.com</p>
+                            <p class="profile-joined">Member since April 2022</p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-tabs">
+                        <button class="profile-tab active" data-tab="account">Account Information</button>
+                        <button class="profile-tab" data-tab="security">Security</button>
+                        <button class="profile-tab" data-tab="activity">Activity Log</button>
+                    </div>
+                    
+                    <div class="profile-tab-content active" id="account-tab">
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Personal Information</h2>
+                                <button class="btn btn-sm btn-outline edit-section-btn" data-section="personal">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                            <div class="section-content">
+                                <form id="personal-info-form" class="admin-form">
+                                    <div class="form-row">
+                                        <div class="form-group half">
+                                            <label for="first-name">First Name</label>
+                                            <input type="text" id="first-name" class="form-control" value="Michael" disabled>
+                                        </div>
+                                        <div class="form-group half">
+                                            <label for="last-name">Last Name</label>
+                                            <input type="text" id="last-name" class="form-control" value="Brown" disabled>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" id="email" class="form-control" value="michael.brown@example.com" disabled>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="tel" id="phone" class="form-control" value="(555) 123-4567" disabled>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="bio">Bio</label>
+                                        <textarea id="bio" class="form-control" rows="3" disabled>Administrator at CampusConnect with a background in higher education technology. Passionate about improving the college search and application process for students.</textarea>
+                                    </div>
+                                    
+                                    <div class="form-actions" style="display: none;">
+                                        <button type="button" class="btn btn-outline cancel-edit-btn" data-section="personal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Notification Preferences</h2>
+                                <button class="btn btn-sm btn-outline edit-section-btn" data-section="notifications">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                            <div class="section-content">
+                                <form id="notification-prefs-form" class="admin-form">
+                                    <div class="form-group">
+                                        <label>Email Notifications</label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="email-notifications" value="reports" checked disabled> New Reports
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="email-notifications" value="verification" checked disabled> Verification Requests
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="email-notifications" value="system" checked disabled> System Alerts
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="email-notifications" value="users" disabled> New User Registrations
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Browser Notifications</label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="browser-notifications" value="reports" checked disabled> New Reports
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="browser-notifications" value="verification" checked disabled> Verification Requests
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="browser-notifications" value="system" checked disabled> System Alerts
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="browser-notifications" value="users" checked disabled> New User Registrations
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions" style="display: none;">
+                                        <button type="button" class="btn btn-outline cancel-edit-btn" data-section="notifications">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-tab-content" id="security-tab">
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Change Password</h2>
+                            </div>
+                            <div class="section-content">
+                                <form id="change-password-form" class="admin-form">
+                                    <div class="form-group">
+                                        <label for="current-password">Current Password</label>
+                                        <input type="password" id="current-password" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="new-password">New Password</label>
+                                        <input type="password" id="new-password" class="form-control" required>
+                                        <small class="form-text">Password must be at least 8 characters long and include uppercase letters, numbers, and special characters.</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm New Password</label>
+                                        <input type="password" id="confirm-password" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">Update Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Two-Factor Authentication</h2>
+                            </div>
+                            <div class="section-content">
+                                <div class="two-factor-status">
+                                    <div class="status-icon enabled">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="status-info">
+                                        <h3>Two-Factor Authentication is Enabled</h3>
+                                        <p>Your account is currently protected with two-factor authentication.</p>
+                                    </div>
+                                    <div class="status-action">
+                                        <button class="btn btn-danger" id="disable-2fa-btn">Disable</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="recovery-codes">
+                                    <h3>Recovery Codes</h3>
+                                    <p>Recovery codes can be used to access your account in the event you lose access to your device and cannot receive two-factor authentication codes.</p>
+                                    <div class="recovery-codes-actions">
+                                        <button class="btn btn-outline" id="view-recovery-codes-btn">
+                                            <i class="fas fa-eye"></i> View Recovery Codes
+                                        </button>
+                                        <button class="btn btn-outline" id="generate-recovery-codes-btn">
+                                            <i class="fas fa-sync-alt"></i> Generate New Codes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Login Sessions</h2>
+                            </div>
+                            <div class="section-content">
+                                <div class="sessions-list">
+                                    <div class="session-item current">
+                                        <div class="session-device">
+                                            <i class="fas fa-laptop"></i>
+                                            <div class="session-info">
+                                                <h3>Current Session</h3>
+                                                <p>Chrome on Windows • New York, USA</p>
+                                                <span class="session-time">Active now</span>
+                                            </div>
+                                        </div>
+                                        <div class="session-actions">
+                                            <span class="current-label">Current</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="session-item">
+                                        <div class="session-device">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <div class="session-info">
+                                                <h3>iPhone 13</h3>
+                                                <p>Safari on iOS • Boston, USA</p>
+                                                <span class="session-time">Last active: 2 hours ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="session-actions">
+                                            <button class="btn btn-sm btn-outline btn-danger">
+                                                <i class="fas fa-sign-out-alt"></i> Logout
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="session-item">
+                                        <div class="session-device">
+                                            <i class="fas fa-tablet-alt"></i>
+                                            <div class="session-info">
+                                                <h3>iPad Pro</h3>
+                                                <p>Safari on iPadOS • New York, USA</p>
+                                                <span class="session-time">Last active: Yesterday</span>
+                                            </div>
+                                        </div>
+                                        <div class="session-actions">
+                                            <button class="btn btn-sm btn-outline btn-danger">
+                                                <i class="fas fa-sign-out-alt"></i> Logout
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="sessions-actions">
+                                    <button class="btn btn-danger" id="logout-all-btn">
+                                        <i class="fas fa-sign-out-alt"></i> Logout of All Other Sessions
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-tab-content" id="activity-tab">
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <h2>Recent Activity</h2>
+                                <div class="section-actions">
+                                    <select id="activity-filter" class="form-control form-control-sm">
+                                        <option value="all">All Activity</option>
+                                        <option value="login">Login Activity</option>
+                                        <option value="content">Content Management</option>
+                                        <option value="user">User Management</option>
+                                        <option value="settings">Settings Changes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="activity-timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon login-icon">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Logged in to admin dashboard</h3>
+                                            <p>Chrome on Windows • New York, USA</p>
+                                            <span class="timeline-time">Today, 9:32 AM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon user-icon">
+                                            <i class="fas fa-user-check"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Approved user verification request</h3>
+                                            <p>Approved faculty verification for Emily Davis</p>
+                                            <span class="timeline-time">Today, 9:45 AM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon content-icon">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Resolved reported content</h3>
+                                            <p>Removed inappropriate answer from question "Is cheating common at Ivy League schools?"</p>
+                                            <span class="timeline-time">Today, 10:15 AM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon settings-icon">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Updated system settings</h3>
+                                            <p>Changed content moderation settings</p>
+                                            <span class="timeline-time">Yesterday, 3:20 PM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon login-icon">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Logged in to admin dashboard</h3>
+                                            <p>Safari on iPhone • Boston, USA</p>
+                                            <span class="timeline-time">Yesterday, 1:05 PM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-icon user-icon">
+                                            <i class="fas fa-user-plus"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h3>Created new admin user</h3>
+                                            <p>Added Sarah Wilson as an administrator</p>
+                                            <span class="timeline-time">April 10, 2023</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-load-more">
+                                    <button class="btn btn-outline" id="load-more-activity">
+                                        <i class="fas fa-history"></i> Load More Activity
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- View Recovery Codes Modal -->
+    <div class="admin-modal" id="recovery-codes-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2>Recovery Codes</h2>
+                <button class="admin-modal-close">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <div class="recovery-codes-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Keep these recovery codes in a safe place.</strong><br>If you lose your device and don't have the recovery codes, you will lose access to your account.</p>
+                </div>
+                
+                <div class="recovery-codes-list">
+                    <code>ABCD-EFGH-IJKL</code>
+                    <code>MNOP-QRST-UVWX</code>
+                    <code>1234-5678-9ABC</code>
+                    <code>DEFG-HIJK-LMNO</code>
+                    <code>PQRS-TUVW-XYZ1</code>
+                    <code>2345-6789-ABCD</code>
+                    <code>EFGH-IJKL-MNOP</code>
+                    <code>QRST-UVWX-YZ12</code>
+                </div>
+                
+                <div class="recovery-codes-actions">
+                    <button class="btn btn-outline" id="download-codes-btn">
+                        <i class="fas fa-download"></i> Download Codes
+                    </button>
+                    <button class="btn btn-outline" id="copy-codes-btn">
+                        <i class="fas fa-copy"></i> Copy Codes
+                    </button>
+                    <button class="btn btn-outline" id="print-codes-btn">
+                        <i class="fas fa-print"></i> Print Codes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/init-data.js"></script>
+    <script src="../js/admin-common.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

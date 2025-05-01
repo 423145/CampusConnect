@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <div class="container">
+        <div class="verify-card">
+            <div class="verify-header">
+                <h1>Verify Your Email</h1>
+                <p>We've sent a verification code to your email address. Please enter it below to complete your registration.</p>
+            </div>
+
+            <form id="verification-form">
+                <div class="code-inputs">
+                    <input type="text" maxlength="1" class="code-input" data-index="0">
+                    <input type="text" maxlength="1" class="code-input" data-index="1">
+                    <input type="text" maxlength="1" class="code-input" data-index="2">
+                    <input type="text" maxlength="1" class="code-input" data-index="3">
+                    <input type="text" maxlength="1" class="code-input" data-index="4">
+                    <input type="text" maxlength="1" class="code-input" data-index="5">
+                </div>
+
+                <div class="verify-timer">
+                    <span>Code expires in: </span>
+                    <span id="timer">30:00</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-verify">
+                    Verify Email
+                </button>
+
+                <div class="verify-options">
+                    <button type="button" id="resend-code" class="btn btn-link" disabled>
+                        Resend Code
+                    </button>
+                    <span id="resend-timer"></span>
+                </div>
+            </form>
+
+            <div id="verify-alert" class="alert hidden"></div>
+
+            <div class="verify-help">
+                <p>Didn't receive the code?</p>
+                <ul>
+                    <li>Check your spam folder</li>
+                    <li>Make sure you entered the correct email</li>
+                    <li>Wait a few minutes and try again</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/verify-email.js"></script>
+</body>
+</html>

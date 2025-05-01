@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Question - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/answer-editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CampusConnect</a></h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="questions.html" class="active">Q&A</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="user-avatar">
+                    <img src="" alt="" id="headerAvatar">
+                </div>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="notifications.html" class="dropdown-item">
+                        <i class="fas fa-bell"></i> Notifications
+                    </a>
+                    <a href="#" class="dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <main class="answer-container">
+        <div class="question-preview">
+            <h2 id="questionTitle"></h2>
+            <div class="question-meta">
+                <span class="college-tag" id="questionCollege"></span>
+                <span class="time" id="questionTime"></span>
+                <div class="question-actions">
+                    <button class="btn btn-outline" id="shareBtn">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button class="btn btn-primary" id="replyBtn">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                </div>
+            </div>
+            <p id="questionContent"></p>
+        </div>
+
+        <div class="answer-editor">
+            <h3>Your Answer</h3>
+            <div class="editor-container">
+                <textarea id="answerEditor"></textarea>
+            </div>
+            <div class="answer-guidelines">
+                <h4>Answer Guidelines:</h4>
+                <ul>
+                    <li>Be specific and provide detailed information</li>
+                    <li>Share your personal experience if relevant</li>
+                    <li>Use proper formatting for better readability</li>
+                    <li>Cite sources when necessary</li>
+                    <li>Be respectful and professional</li>
+                </ul>
+            </div>
+            <div class="answer-actions">
+                <button class="btn btn-outline" id="previewBtn">Preview</button>
+                <button class="btn btn-primary" id="submitAnswer">Submit Answer</button>
+            </div>
+        </div>
+
+        <div class="answer-preview" style="display: none;">
+            <h3>Preview Your Answer</h3>
+            <div id="previewContent" class="preview-content"></div>
+            <button class="btn btn-outline" id="editAnswer">Edit Answer</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>CampusConnect</h2>
+                <p>Connecting prospective students with authentic college experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="colleges.html">Colleges</a></li>
+                        <li><a href="questions.html">Q&A</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="guidelines.html">Community Guidelines</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:support@campusconnect.com">support@campusconnect.com</a></li>
+                        <li><a href="tel:+1234567890">+123 456 7890</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/header.js"></script>
+    <script src="../js/answer-editor.js"></script>
+</body>
+</html>

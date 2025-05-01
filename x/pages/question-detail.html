@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Detail - College Q&A</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/question-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="container">
+        <div class="question-container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="../index.html">Home</a> &gt; 
+                <a href="questions.html" id="college-questions-link">Questions</a> &gt; 
+                <span id="question-title-breadcrumb">Question Title</span>
+            </div>
+
+            <!-- Question Header -->
+            <div class="question-header">
+                <h1 id="question-title">Loading question...</h1>
+                <div class="question-meta">
+                    <span class="question-date" id="question-date">Asked on: ...</span>
+                    <span class="question-views" id="question-views"><i class="fas fa-eye"></i> 0 views</span>
+                    <div class="question-tags" id="question-tags">
+                        <!-- Tags will be added dynamically -->
+                    </div>
+                </div>
+                <div class="question-actions">
+                    <button id="bookmark-btn" class="action-btn">
+                        <i class="far fa-bookmark"></i> Bookmark
+                    </button>
+                    <button id="share-btn" class="action-btn">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button id="report-btn" class="action-btn">
+                        <i class="fas fa-flag"></i> Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Content -->
+            <div class="question-content-container">
+                <div class="vote-controls">
+                    <button id="upvote-question" class="vote-btn">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <span id="question-vote-count">0</span>
+                    <button id="downvote-question" class="vote-btn">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                
+                <div class="question-content">
+                    <div id="question-text">
+                        Loading question content...
+                    </div>
+                    
+                    <div class="question-author">
+                        <div class="author-info">
+                            <div class="author-avatar" id="question-author-avatar">
+                                <!-- Author avatar will be added dynamically -->
+                            </div>
+                            <div class="author-details">
+                                <div class="author-name" id="question-author-name">Loading...</div>
+                                <div class="author-college" id="question-author-college">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="asked-time" id="question-time">asked 1 day ago</div>
+                    </div>
+                    
+               
+                </div>
+            </div>
+
+            <!-- Answer Count -->
+            <div class="answer-count">
+                <h2 id="answers-count">0 Answers</h2>
+                <div class="sort-answers">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="votes">Highest votes</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Answers List -->
+            <div id="answers-container">
+                <!-- Answers will be added dynamically -->
+            </div>
+
+            <!-- Your Answer Form -->
+            <div class="your-answer">
+                <h2>Your Answer</h2>
+                <div id="login-prompt" style="display: none;">
+                    <p>Please <a href="login.html">log in</a> or <a href="signup.html">sign up</a> to post an answer.</p>
+                </div>
+                <div id="answer-form">
+                    <textarea id="answer-text" placeholder="Write your answer here..."></textarea>
+                    <div class="editor-tools">
+                        <button class="tool-btn"><i class="fas fa-bold"></i></button>
+                        <button class="tool-btn"><i class="fas fa-italic"></i></button>
+                        <button class="tool-btn"><i class="fas fa-link"></i></button>
+                        <button class="tool-btn"><i class="fas fa-code"></i></button>
+                        <button class="tool-btn"><i class="fas fa-image"></i></button>
+                    </div>
+                    <button id="post-answer-btn" class="primary-btn">Post Your Answer</button>
+                </div>
+            </div>
+
+            <!-- Related Questions -->
+            <div class="related-questions">
+                <h3>Related Questions</h3>
+                <ul id="related-questions-list">
+                    <!-- Related questions will be added dynamically -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="college-info" id="college-info">
+                <h3 id="sidebar-college-name">College Name</h3>
+                <div id="sidebar-college-description">Loading college information...</div>
+                <a href="#" id="sidebar-college-questions" class="college-link">See all questions</a>
+            </div>
+            
+            <div class="hot-questions">
+                <h3>Hot Questions</h3>
+                <ul id="hot-questions-list">
+                    <!-- Hot questions will be added dynamically -->
+                </ul>
+            </div>
+            
+            <div class="top-contributors">
+                <h3>Top Contributors</h3>
+                <ul id="top-contributors-list">
+                    <!-- Top contributors will be added dynamically -->
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Share This Question</h3>
+            <div class="share-options">
+                <input type="text" id="share-link" readonly>
+                <button id="copy-link-btn" class="primary-btn">Copy Link</button>
+                <div class="social-share">
+                    <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                    <button class="social-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
+                    <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button class="social-btn linkedin"><i class="fab fa-linkedin-in"></i> LinkedIn</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Report This Question</h3>
+            <form id="report-form">
+                <div class="form-group">
+                    <label for="report-reason">Reason:</label>
+                    <select id="report-reason">
+                        <option value="">Select a reason</option>
+                        <option value="inappropriate">Inappropriate content</option>
+                        <option value="spam">Spam</option>
+                        <option value="duplicate">Duplicate question</option>
+                        <option value="off-topic">Off-topic</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="report-description">Description:</label>
+                    <textarea id="report-description" placeholder="Please provide details about your report..."></textarea>
+                </div>
+                <button type="submit" class="primary-btn" id="submit-report-btn">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <!-- Loading Template for Answer -->
+    <template id="answer-template">
+        <div class="answer">
+            <div class="vote-controls">
+                <button class="vote-btn upvote-answer">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <span class="vote-count">0</span>
+                <button class="vote-btn downvote-answer">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="answer-content">
+                <div class="answer-text"></div>
+                
+                <div class="answer-author">
+                    <div class="author-info">
+                        <div class="author-avatar"></div>
+                        <div class="author-details">
+                            <div class="author-name"></div>
+                            <div class="author-college"></div>
+                        </div>
+                    </div>
+                    <div class="answered-time"></div>
+                </div>
+                
+                <div class="answer-actions">
+                    <button class="action-btn report-answer-btn">
+                        <i class="fas fa-flag"></i> Report
+                    </button>
+                </div>
+                
+                <div class="answer-comments">
+                    <h4>Comments</h4>
+                    <div class="comments-list"></div>
+                    <div class="add-comment">
+                        <textarea class="comment-text" placeholder="Add a comment..."></textarea>
+                        <button class="comment-btn add-answer-comment">Add Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="../js/config.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/question-detail.js"></script>
+</body>
+</html>

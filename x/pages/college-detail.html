@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Details - CampusConnect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/college-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="CampusConnect Logo">
+                <span>CampusConnect</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="questions.html">Q&A</a></li>
+                <li><a href="colleges.html" class="active">Colleges</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="college-detail-container">
+        <div class="college-header">
+            <div class="college-image">
+                <img id="collegeImage" src="../assets/default-college.jpg" alt="College Image">
+            </div>
+            <div class="college-info">
+                <h1 id="collegeName">Loading...</h1>
+                <div class="college-type" id="collegeType">Loading...</div>
+                <div class="college-location" id="collegeLocation">Loading...</div>
+            </div>
+        </div>
+
+        <div class="college-details">
+            <div class="detail-section">
+                <h2>Admission Process</h2>
+                <p id="admissionProcess">Loading...</p>
+            </div>
+
+            <div class="detail-section">
+                <h2>Contact Information</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <a id="collegeWebsite" href="#" target="_blank">Visit Website</a>
+                    </div>
+                    <div class="contact-item" id="collegeEmail">
+                        <i class="fas fa-envelope"></i>
+                        <span>Loading...</span>
+                    </div>
+                    <div class="contact-item" id="collegePhone">
+                        <i class="fas fa-phone"></i>
+                        <span>Loading...</span>
+                    </div>
+                    <div class="contact-item" id="collegeAddress">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h2>About</h2>
+                <p id="collegeDescription">Loading...</p>
+            </div>
+
+            <div class="detail-section">
+                <h2>Courses Offered</h2>
+                <ul id="coursesList" class="courses-list">
+                    <li>Loading...</li>
+                </ul>
+            </div>
+
+            <div class="detail-section">
+                <h2>Facilities</h2>
+                <ul id="facilitiesList" class="facilities-list">
+                    <li>Loading...</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About CampusConnect</h3>
+                <p>Connecting prospective students with authentic college experiences.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="questions.html">Q&A</a></li>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/college-detail.js"></script>
+</body>
+</html> 

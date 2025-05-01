@@ -1,0 +1,137 @@
+/* Verification Page Styles */
+
+.verification-requests {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.verification-card {
+  background-color: white;
+  border-radius: 0.35rem;
+  box-shadow: var(--admin-shadow);
+  overflow: hidden;
+}
+
+.verification-header {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--admin-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.user-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+.user-info p {
+  margin: 0;
+  color: var(--admin-secondary);
+  font-size: 0.9rem;
+}
+
+.verification-details {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  width: 140px;
+  font-weight: 600;
+  color: var(--admin-secondary);
+}
+
+.detail-value {
+  flex: 1;
+}
+
+.verification-documents {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.verification-documents h4 {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--admin-secondary);
+  text-transform: uppercase;
+}
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.document-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--admin-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.document-link:hover {
+  text-decoration: underline;
+}
+
+.verification-actions {
+  padding: 1.25rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .verification-requests {
+    grid-template-columns: 1fr;
+  }
+
+  .verification-actions {
+    flex-direction: column;
+  }
+}

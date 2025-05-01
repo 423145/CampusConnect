@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Details</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="collegeDetails" class="college-details">
+            <div class="college-header">
+                <h1 id="collegeName"></h1>
+                <p id="collegeLocation" class="location"></p>
+                <p id="collegeType" class="type"></p>
+            </div>
+
+            <div class="college-info">
+                <div class="info-section">
+                    <h2>About</h2>
+                    <p id="collegeDescription"></p>
+                </div>
+
+                <div class="info-section">
+                    <h2>Contact Information</h2>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> <span id="collegeEmail"></span></p>
+                        <p><i class="fas fa-phone"></i> <span id="collegePhone"></span></p>
+                        <p><i class="fas fa-globe"></i> <a id="collegeWebsite" href="#" target="_blank">Visit Website</a></p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>Key Information</h2>
+                    <div class="key-info">
+                        <p><i class="fas fa-calendar-alt"></i> Established: <span id="collegeEstablished"></span></p>
+                        <p><i class="fas fa-certificate"></i> Accreditation: <span id="collegeAccreditation"></span></p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>Facilities</h2>
+                    <div id="collegeFacilities" class="facilities-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/college-detail.js"></script>
+</body>
+</html> 

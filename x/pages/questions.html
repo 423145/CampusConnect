@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/questions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>CampusConnect</h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="questions.html" class="active">Q&A</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li id="adminSection" style="display: none;">
+                        <a href="../admin/html/dashboard.html" class="admin-link">
+                            <i class="fas fa-user-shield"></i> Admin Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="user-avatar">
+                    <img src="" alt="" id="headerAvatar">
+                </div>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item" data-action="profile">
+                        <i class="fas fa-user"></i>
+                        My Profile
+                    </a>
+                    <a href="notifications.html" class="dropdown-item" data-action="notifications">
+                        <i class="fas fa-bell"></i>
+                        Notifications
+                        <span class="notification-badge" style="display: none;">0</span>
+                    </a>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn" data-action="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <main class="container">
+            <div class="questions-header">
+                <div class="questions-title">
+                    <h1>Questions & Answers</h1>
+                    <p id="questions-subtitle">Browse all questions or ask your own</p>
+                </div>
+                <div class="questions-actions">
+                    <a href="ask-question.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ask Question
+                    </a>
+                </div>
+            </div>
+
+            <div class="questions-container">
+                <div class="questions-sidebar">
+                    <div class="filter-section">
+                        <h3>Filter By</h3>
+                        <div class="filter-group">
+                            <label>Tags</label>
+                            <div id="tags-filter" class="tags-filter">
+                                <!-- Popular tags will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="radio" name="status" value="all" checked>
+                                    <span>All Questions</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="status" value="resolved">
+                                    <span>Resolved</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="status" value="unresolved">
+                                    <span>Unresolved</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="questions-main">
+                    <div class="questions-toolbar">
+                        <div class="questions-count">
+                            <span id="questions-count">0</span> questions
+                        </div>
+                        <div class="questions-sort">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by">
+                                <option value="newest">Newest</option>
+                                <option value="active">Most Active</option>
+                                <option value="votes">Most Votes</option>
+                                <option value="views">Most Views</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="questions-list" id="questions-list">
+                        <!-- Questions will be populated by JavaScript -->
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Loading questions...</span>
+                        </div>
+                    </div>
+
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../assets/logo.png" alt="College Q&A Logo">
+                    <span>College Q&A</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h3>Navigation</h3>
+                        <ul>
+                            <li><a href="../index.html">Home</a></li>
+                            <li><a href="colleges.html">Colleges</a></li>
+                            <li><a href="questions.html">Q&A</a></li>
+                            <li><a href="about.html">About</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Community Guidelines</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Connect</h3>
+                        <ul>
+                            <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                            <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 College Q&A. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/header.js"></script>
+    <script type="module" src="../js/admin-auth.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/questions.js"></script>
+    <!-- Add login detection scripts -->
+    <script src="../js/api-helper.js"></script>
+    <script src="../js/login-detector.js"></script>
+</body>
+</html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>CampusConnect</h1>
+                <p>Admin Panel</p>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="users.html">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="colleges.html">
+                            <i class="fas fa-university"></i>
+                            <span>College Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="questions.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Q&A Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-flag"></i>
+                            <span>Reports & Flags</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="verification.html">
+                            <i class="fas fa-user-check"></i>
+                            <span>User Verification</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="admin-sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Site</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search settings..." id="settings-search">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="admin-header-right">
+                    <div class="notifications">
+                        <a href="#" class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </a>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <a href="#">Mark all as read</a>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-flag"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New content flagged for review</p>
+                                        <span class="notification-time">2 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New user registration: John Smith</p>
+                                        <span class="notification-time">1 hour ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>System alert: Database backup completed</p>
+                                        <span class="notification-time">3 hours ago</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New verification request pending</p>
+                                        <span class="notification-time">Yesterday</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="notifications.html">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-profile">
+                        <a href="#" class="admin-profile-toggle">
+                            <div class="admin-avatar">
+                                <span>A</span>
+                            </div>
+                            <span class="admin-name">Michael Brown</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="admin-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="profile.html">
+                                        <i class="fas fa-user"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="admin-logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <div class="admin-content-header">
+                    <h1>Settings</h1>
+                    <p>Configure system settings and preferences</p>
+                </div>
+                
+                <!-- Settings Tabs -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="general">General</button>
+                    <button class="admin-tab" data-tab="security">Security</button>
+                    <button class="admin-tab" data-tab="email">Email</button>
+                    <button class="admin-tab" data-tab="notifications">Notifications</button>
+                    <button class="admin-tab" data-tab="integrations">Integrations</button>
+                </div>
+                
+                <!-- General Settings Tab -->
+                <div class="admin-tab-content active" id="general-tab">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Site Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="site-settings-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="site-name">Site Name</label>
+                                    <input type="text" id="site-name" class="form-control" value="CampusConnect">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-description">Site Description</label>
+                                    <textarea id="site-description" class="form-control" rows="3">A platform for college students to connect, ask questions, and share knowledge.</textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-logo">Site Logo</label>
+                                    <div class="file-upload">
+                                        <input type="file" id="site-logo" class="form-control" accept="image/*">
+                                        <div class="current-logo">
+                                            <img src="../img/logo.png" alt="Current Logo">
+                                            <span>Current Logo</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-favicon">Favicon</label>
+                                    <input type="file" id="site-favicon" class="form-control" accept="image/*">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Content Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="content-settings-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="items-per-page">Items Per Page</label>
+                                    <input type="number" id="items-per-page" class="form-control" value="10" min="5" max="100">
+                                    <small class="form-text">Number of items to display per page in listings</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="default-sort">Default Sort Order</label>
+                                    <select id="default-sort" class="form-control">
+                                        <option value="newest">Newest First</option>
+                                        <option value="oldest">Oldest First</option>
+                                        <option value="popular">Most Popular</option>
+                                        <option value="votes">Most Votes</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Content Moderation</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="moderation" value="profanity" checked> Enable Profanity Filter
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="moderation" value="spam" checked> Enable Spam Detection
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="moderation" value="approval"> Require Approval for New Questions
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="moderation" value="links"> Require Approval for Links
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Settings Tab -->
+                <div class="admin-tab-content" id="security-tab">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Authentication Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="auth-settings-form" class="admin-form">
+                                <div class="form-group">
+                                    <label>Password Requirements</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="password-req" value="length" checked> Minimum 8 Characters
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="password-req" value="uppercase" checked> Require Uppercase Letter
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="password-req" value="number" checked> Require Number
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="password-req" value="special"> Require Special Character
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="session-timeout">Session Timeout</label>
+                                    <select id="session-timeout" class="form-control">
+                                        <option value="30">30 Minutes</option>
+                                        <option value="60" selected>1 Hour</option>
+                                        <option value="120">2 Hours</option>
+                                        <option value="240">4 Hours</option>
+                                        <option value="480">8 Hours</option>
+                                        <option value="1440">24 Hours</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Two-Factor Authentication</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="2fa" value="disabled" checked> Disabled
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="2fa" value="optional"> Optional for Users
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="2fa" value="required-admin"> Required for Admins Only
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="2fa" value="required-all"> Required for All Users
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>API & Integrations Security</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="api-security-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="api-key">API Key</label>
+                                    <div class="input-with-button">
+                                        <input type="text" id="api-key" class="form-control" value="sk_live_51KjTygH7NbkwSJ8g7TYhY5dKL" readonly>
+                                        <button type="button" class="btn btn-outline" id="regenerate-api-key">
+                                            <i class="fas fa-sync-alt"></i> Regenerate
+                                        </button>
+                                    </div>
+                                    <small class="form-text text-danger">Warning: Regenerating will invalidate the current key</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>API Access Control</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="api-access" value="read" checked> Allow Read Access
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="api-access" value="write" checked> Allow Write Access
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="api-access" value="delete"> Allow Delete Access
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="allowed-origins">Allowed Origins (CORS)</label>
+                                    <textarea id="allowed-origins" class="form-control" rows="3">https://example.com
+https://api.example.com</textarea>
+                                    <small class="form-text">Enter one domain per line</small>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Settings Tab -->
+                <div class="admin-tab-content" id="email-tab">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Email Configuration</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="email-settings-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="email-from">From Email</label>
+                                    <input type="email" id="email-from" class="form-control" value="noreply@campusconnect.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email-from-name">From Name</label>
+                                    <input type="text" id="email-from-name" class="form-control" value="CampusConnect">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtp-host">SMTP Host</label>
+                                    <input type="text" id="smtp-host" class="form-control" value="smtp.example.com">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group half">
+                                        <label for="smtp-port">SMTP Port</label>
+                                        <input type="number" id="smtp-port" class="form-control" value="587">
+                                    </div>
+                                    
+                                    <div class="form-group half">
+                                        <label for="smtp-encryption">Encryption</label>
+                                        <select id="smtp-encryption" class="form-control">
+                                            <option value="none">None</option>
+                                            <option value="ssl">SSL</option>
+                                            <option value="tls" selected>TLS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtp-username">SMTP Username</label>
+                                    <input type="text" id="smtp-username" class="form-control" value="smtp_user">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtp-password">SMTP Password</label>
+                                    <input type="password" id="smtp-password" class="form-control" value="••••••••••••">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" id="test-email-btn">
+                                        <i class="fas fa-paper-plane"></i> Send Test Email
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Email Templates</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="email-templates-list">
+                                <div class="template-item">
+                                    <div class="template-info">
+                                        <h3>Welcome Email</h3>
+                                        <p>Sent to new users after registration</p>
+                                    </div>
+                                    <div class="template-actions">
+                                        <button class="btn btn-sm btn-outline edit-template-btn" data-template="welcome">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="template-item">
+                                    <div class="template-info">
+                                        <h3>Password Reset</h3>
+                                        <p>Sent when a user requests a password reset</p>
+                                    </div>
+                                    <div class="template-actions">
+                                        <button class="btn btn-sm btn-outline edit-template-btn" data-template="password-reset">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="template-item">
+                                    <div class="template-info">
+                                        <h3>Email Verification</h3>
+                                        <p>Sent to verify a user's email address</p>
+                                    </div>
+                                    <div class="template-actions">
+                                        <button class="btn btn-sm btn-outline edit-template-btn" data-template="email-verification">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="template-item">
+                                    <div class="template-info">
+                                        <h3>New Question Notification</h3>
+                                        <p>Sent when a new question is posted in a user's followed topics</p>
+                                    </div>
+                                    <div class="template-actions">
+                                        <button class="btn btn-sm btn-outline edit-template-btn" data-template="new-question">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="template-item">
+                                    <div class="template-info">
+                                        <h3>Answer Notification</h3>
+                                        <p>Sent when a user's question receives a new answer</p>
+                                    </div>
+                                    <div class="template-actions">
+                                        <button class="btn btn-sm btn-outline edit-template-btn" data-template="new-answer">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notifications Settings Tab -->
+                <div class="admin-tab-content" id="notifications-tab">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Notification Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="notification-settings-form" class="admin-form">
+                                <div class="form-group">
+                                    <label>Admin Notifications</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="admin-notifications" value="new-user" checked> New User Registrations
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="admin-notifications" value="reported-content" checked> Reported Content
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="admin-notifications" value="verification-request" checked> Verification Requests
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="admin-notifications" value="system-alerts" checked> System Alerts
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Default User Notification Preferences</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="user-notifications" value="email-answers" checked> Email for New Answers
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="user-notifications" value="email-comments" checked> Email for New Comments
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="user-notifications" value="email-mentions" checked> Email for Mentions
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="user-notifications" value="email-digest" checked> Weekly Email Digest
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="notification-frequency">Notification Frequency</label>
+                                    <select id="notification-frequency" class="form-control">
+                                        <option value="immediate">Immediate</option>
+                                        <option value="hourly">Hourly Digest</option>
+                                        <option value="daily" selected>Daily Digest</option>
+                                        <option value="weekly">Weekly Digest</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Integrations Settings Tab -->
+                <div class="admin-tab-content" id="integrations-tab">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Social Media Integrations</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="social-integrations-form" class="admin-form">
+                                <div class="integration-item">
+                                    <div class="integration-header">
+                                        <div class="integration-logo">
+                                            <i class="fab fa-google"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h3>Google</h3>
+                                            <p>Allow users to sign in with Google</p>
+                                        </div>
+                                        <div class="integration-toggle">
+                                            <label class="switch">
+                                                <input type="checkbox" name="google-enabled" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="integration-details">
+                                        <div class="form-group">
+                                            <label for="google-client-id">Client ID</label>
+                                            <input type="text" id="google-client-id" class="form-control" value="123456789012-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="google-client-secret">Client Secret</label>
+                                            <input type="password" id="google-client-secret" class="form-control" value="••••••••••••••••••••••••">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="google-redirect-uri">Redirect URI</label>
+                                            <input type="text" id="google-redirect-uri" class="form-control" value="https://campusconnect.com/auth/google/callback">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="integration-item">
+                                    <div class="integration-header">
+                                        <div class="integration-logo">
+                                            <i class="fab fa-facebook"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h3>Facebook</h3>
+                                            <p>Allow users to sign in with Facebook</p>
+                                        </div>
+                                        <div class="integration-toggle">
+                                            <label class="switch">
+                                                <input type="checkbox" name="facebook-enabled">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="integration-details" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="facebook-app-id">App ID</label>
+                                            <input type="text" id="facebook-app-id" class="form-control" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="facebook-app-secret">App Secret</label>
+                                            <input type="password" id="facebook-app-secret" class="form-control" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="facebook-redirect-uri">Redirect URI</label>
+                                            <input type="text" id="facebook-redirect-uri" class="form-control" value="https://campusconnect.com/auth/facebook/callback">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h2>Analytics Integrations</h2>
+                        </div>
+                        <div class="section-content">
+                            <form id="analytics-integrations-form" class="admin-form">
+                                <div class="integration-item">
+                                    <div class="integration-header">
+                                        <div class="integration-logo">
+                                            <i class="fab fa-google"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h3>Google Analytics</h3>
+                                            <p>Track user behavior and site performance</p>
+                                        </div>
+                                        <div class="integration-toggle">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ga-enabled" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="integration-details">
+                                        <div class="form-group">
+                                            <label for="ga-tracking-id">Tracking ID</label>
+                                            <input type="text" id="ga-tracking-id" class="form-control" value="UA-123456789-1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Options</label>
+                                            <div class="checkbox-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" name="ga-options" value="anonymize-ip" checked> Anonymize IP Addresses
+                                                </label>
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" name="ga-options" value="demographics" checked> Enable Demographics
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Edit Email Template Modal -->
+    <div class="admin-modal" id="template-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="template-modal-title">Edit Email Template</h2>
+                <button class="admin-modal-close">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form id="template-form" class="admin-form">
+                    <input type="hidden" id="template-id">
+                    
+                    <div class="form-group">
+                        <label for="template-subject">Subject</label>
+                        <input type="text" id="template-subject" class="form-control" value="Welcome to CampusConnect!">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="template-content">Email Content</label>
+                        <textarea id="template-content" class="form-control template-editor" rows="15">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to CampusConnect</title>
+</head>
+<body>
+    <h1>Welcome to CampusConnect, {{name}}!</h1>
+    <p>Thank you for joining our community of college students and faculty.</p>
+    <p>With CampusConnect, you can:</p>
+    <ul>
+        <li>Ask questions about colleges and academic programs</li>
+        <li>Connect with current students and alumni</li>
+        <li>Share your knowledge and experiences</li>
+    </ul>
+    <p>To get started, <a href="{{loginUrl}}">log in to your account</a> and complete your profile.</p>
+    <p>If you have any questions, please don't hesitate to contact us.</p>
+    <p>Best regards,<br>The CampusConnect Team</p>
+</body>
+</html>
+                        </textarea>
+                        <small class="form-text">Available variables: {{name}}, {{email}}, {{loginUrl}}, {{verifyUrl}}, {{resetUrl}}</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancel-template-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-template-btn">Save Template</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/init-data.js"></script>
+    <script src="../js/admin-common.js"></script>
+    <script src="../js/settings.js"></script>
+</body>
+</html>

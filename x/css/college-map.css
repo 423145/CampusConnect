@@ -1,0 +1,421 @@
+/* College Map Styles */
+.map-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 0;
+}
+
+.map-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.map-header h1 {
+    margin: 0 0 0.5rem;
+}
+
+.map-header p {
+    margin: 0 0 1.5rem;
+    opacity: 0.9;
+}
+
+.map-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    font-size: 1rem;
+}
+
+.search-box button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-box button:hover {
+    background-color: var(--primary-dark);
+}
+
+.filter-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-options select {
+    padding: 0.75rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+.map-container {
+    position: relative;
+    height: 600px;
+    background-color: #f0f0f0;
+}
+
+#collegeMap {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.college-info {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 350px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 2;
+    overflow: hidden;
+    max-height: calc(100% - 2rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.info-header {
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-info {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.close-info:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.info-content {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.select-prompt {
+    color: var(--text-light);
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.college-detail {
+    margin-bottom: 1rem;
+}
+
+.college-detail h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.college-detail p {
+    margin: 0;
+}
+
+.college-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.college-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+    background-color: var(--bg-light);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+}
+
+.stat-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.college-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.college-tag {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.info-actions {
+    padding: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.info-actions a {
+    flex: 1;
+    text-align: center;
+}
+
+.nearby-section {
+    padding: 3rem 0;
+}
+
+.nearby-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.nearby-section h2 {
+    margin: 0 0 0.5rem;
+}
+
+.nearby-section p {
+    margin: 0 0 2rem;
+    color: var(--text-light);
+}
+
+.nearby-colleges {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.nearby-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.nearby-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nearby-image {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.nearby-content {
+    padding: 1rem;
+}
+
+.nearby-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.nearby-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.nearby-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nearby-actions a {
+    font-size: 0.9rem;
+}
+
+/* Leaflet Customization */
+.custom-marker-icon {
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.custom-marker-icon.iit {
+    background-color: #e74c3c;
+}
+
+.custom-marker-icon.nit {
+    background-color: #3498db;
+}
+
+.custom-marker-icon.iiit {
+    background-color: #2ecc71;
+}
+
+.custom-marker-icon.private {
+    background-color: #f39c12;
+}
+
+.custom-marker-icon.deemed {
+    background-color: #9b59b6;
+}
+
+.custom-marker-icon.selected {
+    width: 16px;
+    height: 16px;
+    border: 3px solid white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: var(--border-radius);
+    padding: 0;
+    overflow: hidden;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    width: 250px !important;
+}
+
+.popup-content {
+    padding: 1rem;
+}
+
+.popup-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.popup-content p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.popup-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.popup-actions a {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .map-container {
+        height: 500px;
+    }
+    
+    .college-info {
+        width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .filter-options {
+        width: 100%;
+    }
+    
+    .filter-options select {
+        flex: 1;
+    }
+    
+    .college-info {
+        width: 100%;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        max-height: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .map-header .container,
+    .nearby-section .container {
+        padding: 0 1rem;
+    }
+    
+    .map-container {
+        height: 400px;
+    }
+    
+    .nearby-colleges {
+        grid-template-columns: 1fr;
+    }
+}

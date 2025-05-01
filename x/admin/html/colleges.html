@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Management | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>CampusConnect</h1>
+                <p>Admin Panel</p>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="users.html">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="colleges.html">
+                            <i class="fas fa-university"></i>
+                            <span>College Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="questions.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Q&A Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-flag"></i>
+                            <span>Reports & Flags</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="verification.html">
+                            <i class="fas fa-user-check"></i>
+                            <span>User Verification</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="admin-sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Site</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search colleges..." id="college-search">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="admin-header-right">
+                    <div class="notifications">
+                        <a href="#" class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </a>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <a href="#">Mark all as read</a>
+                            </div>
+                            <ul class="notification-list">
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-flag"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New content flagged for review</p>
+                                        <span class="notification-time">2 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New user registration: John Smith</p>
+                                        <span class="notification-time">1 hour ago</span>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>System alert: Database backup completed</p>
+                                        <span class="notification-time">3 hours ago</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification-icon">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New verification request pending</p>
+                                        <span class="notification-time">Yesterday</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="notifications.html">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-profile">
+                        <a href="#" class="admin-profile-toggle">
+                            <div class="admin-avatar">
+                                <span>A</span>
+                            </div>
+                            <span class="admin-name">Michael Brown</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="admin-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="profile.html">
+                                        <i class="fas fa-user"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="admin-logout">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <div class="admin-content-header">
+                    <h1>College Management</h1>
+                    <p>Manage colleges and universities</p>
+                </div>
+                
+                <!-- College Management Tools -->
+                <div class="admin-tools">
+                    <div class="admin-filters">
+                        <div class="filter-group">
+                            <label for="ranking-filter">Filter by Ranking:</label>
+                            <select id="ranking-filter" class="form-control">
+                                <option value="all">All Rankings</option>
+                                <option value="top10">Top 10</option>
+                                <option value="top50">Top 50</option>
+                                <option value="top100">Top 100</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="location-filter">Filter by Location:</label>
+                            <select id="location-filter" class="form-control">
+                                <option value="all">All Locations</option>
+                                <!-- Locations will be populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-actions">
+                        <button id="add-college-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add New College
+                        </button>
+                        <button id="export-colleges-btn" class="btn btn-outline">
+                            <i class="fas fa-file-export"></i> Export Colleges
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Colleges Grid -->
+                <div class="colleges-grid" id="colleges-grid">
+                    <!-- College cards will be populated by JavaScript -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="admin-pagination" id="colleges-pagination">
+                    <!-- Pagination will be populated by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit College Modal -->
+    <div class="admin-modal" id="college-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="college-modal-title">Add New College</h2>
+                <button class="admin-modal-close">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form id="college-form" class="admin-form">
+                    <input type="hidden" id="college-id">
+                    
+                    <div class="form-group">
+                        <label for="college-name">College Name</label>
+                        <input type="text" id="college-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="college-location">Location</label>
+                        <input type="text" id="college-location" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="college-description">Description</label>
+                        <textarea id="college-description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="college-ranking">Ranking</label>
+                        <input type="number" id="college-ranking" class="form-control" min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="college-website">Website</label>
+                        <input type="url" id="college-website" class="form-control" placeholder="https://example.edu">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="college-logo">Logo</label>
+                        <input type="file" id="college-logo" class="form-control" accept="image/*">
+                        <small class="form-text">Recommended size: 200x200 pixels</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancel-college-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-college-btn">Save College</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View College Modal -->
+    <div class="admin-modal" id="view-college-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2>College Details</h2>
+                <button class="admin-modal-close">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <div class="college-profile">
+                    <div class="college-profile-header">
+                        <div class="college-logo" id="view-college-logo">
+                            <span>H</span>
+                        </div>
+                        <div class="college-info">
+                            <h3 id="view-college-name">Harvard University</h3>
+                            <p id="view-college-location"><i class="fas fa-map-marker-alt"></i> Cambridge, MA</p>
+                            <p id="view-college-website"><i class="fas fa-globe"></i> <a href="https://www.harvard.edu" target="_blank">harvard.edu</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="college-profile-details">
+                        <div class="detail-group">
+                            <h4>Description</h4>
+                            <p id="view-college-description">Harvard University is a private Ivy League research university in Cambridge, Massachusetts.</p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <h4>Ranking</h4>
+                            <p id="view-college-ranking"><span class="ranking-badge">#2</span></p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <h4>Activity</h4>
+                            <div class="college-stats">
+                                <div class="stat">
+                                    <span id="view-college-questions">156</span>
+                                    <label>Questions</label>
+                                </div>
+                                <div class="stat">
+                                    <span id="view-college-answers">423</span>
+                                    <label>Answers</label>
+                                </div>
+                                <div class="stat">
+                                    <span id="view-college-users">89</span>
+                                    <label>Users</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="college-profile-actions">
+                        <button class="btn btn-primary" id="edit-college-btn">
+                            <i class="fas fa-edit"></i> Edit College
+                        </button>
+                        <button class="btn btn-outline" id="view-college-page-btn">
+                            <i class="fas fa-external-link-alt"></i> View College Page
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/init-data.js"></script>
+    <script src="../js/admin-common.js"></script>
+    <script src="../js/colleges.js"></script>
+</body>
+</html>

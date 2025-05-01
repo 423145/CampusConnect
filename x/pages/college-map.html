@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Map - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/college-map.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CampusConnect</a></h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="colleges.html" class="active">Colleges</a></li>
+                    <li><a href="questions.html">Q&A</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <main>
+        <section class="map-header">
+            <div class="container">
+                <h1>College Map</h1>
+                <p>Explore colleges across India on an interactive map</p>
+                <div class="map-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search for a college or location">
+                        <button id="searchButton"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select id="regionFilter">
+                            <option value="">All Regions</option>
+                            <option value="north">North India</option>
+                            <option value="south">South India</option>
+                            <option value="east">East India</option>
+                            <option value="west">West India</option>
+                            <option value="central">Central India</option>
+                        </select>
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="iit">IITs</option>
+                            <option value="nit">NITs</option>
+                            <option value="iiit">IIITs</option>
+                            <option value="private">Private Universities</option>
+                            <option value="deemed">Deemed Universities</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="map-container">
+            <div id="collegeMap"></div>
+            <div class="college-info" id="collegeInfo">
+                <div class="info-header">
+                    <h2 id="collegeName">Select a college</h2>
+                    <button class="close-info" id="closeInfo"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="info-content" id="infoContent">
+                    <p class="select-prompt">Click on a college marker to view details</p>
+                </div>
+                <div class="info-actions" id="infoActions" style="display: none;">
+                    <a href="#" class="btn btn-outline" id="viewCollegeBtn">View College</a>
+                    <a href="#" class="btn btn-primary" id="viewQuestionsBtn">View Questions</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="nearby-section">
+            <div class="container">
+                <h2>Nearby Colleges</h2>
+                <p>Colleges near your selected location</p>
+                <div class="nearby-colleges" id="nearbyColleges">
+                    <p class="select-prompt">Select a college on the map to see nearby institutions</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>CampusConnect</h2>
+                <p>Connecting prospective students with authentic college experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="colleges.html">Colleges</a></li>
+                        <li><a href="questions.html">Q&A</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="guidelines.html">Community Guidelines</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:support@campusconnect.com">support@campusconnect.com</a></li>
+                        <li><a href="tel:+1234567890">+123 456 7890</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/college-map.js"></script>
+</body>
+</html>

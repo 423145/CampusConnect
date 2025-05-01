@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading State -->
+    <div id="loadingState" class="state-container">
+        <div class="spinner"></div>
+        <p>Loading profile data...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="state-container hidden">
+        <p id="errorMessage">An error occurred while loading the profile.</p>
+        <button onclick="window.location.href='login.html'" class="btn btn-primary">Go to Login</button>
+    </div>
+
+    <!-- Profile Content -->
+    <div id="profileContent" class="profile-container hidden">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-cover">
+                <img src="../assets/default-cover.jpg" alt="Profile Cover" class="cover-image">
+            </div>
+            <div class="profile-main">
+                <img id="userAvatar" src="../assets/default-avatar.png" alt="User Avatar" class="profile-avatar">
+                <div class="profile-info">
+                    <div class="profile-name-section">
+                        <h1 id="userName">Loading...</h1>
+                        <button id="editProfileBtn" class="btn btn-outline">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                    <div class="profile-details">
+                        <span class="role-badge" id="userRole">Loading...</span>
+                        <span class="email-badge">
+                            <i class="fas fa-envelope"></i>
+                            <span id="userEmail">Loading...</span>
+                        </span>
+                    </div>
+                    <p id="userBio" class="profile-bio">No bio added yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Stats -->
+        <div class="profile-stats">
+            <div class="stat-item">
+                <i class="fas fa-question-circle"></i>
+                <span class="stat-value" id="questionsCount">0</span>
+                <span class="stat-label">Questions</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-comment-alt"></i>
+                <span class="stat-value" id="answersCount">0</span>
+                <span class="stat-label">Answers</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-thumbs-up"></i>
+                <span class="stat-value" id="upvotesCount">0</span>
+                <span class="stat-label">Upvotes</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span class="stat-value" id="reputationPoints">0</span>
+                <span class="stat-label">Reputation</span>
+            </div>
+        </div>
+
+        <!-- Academic Information -->
+        <div class="profile-section academic-section">
+            <h2><i class="fas fa-graduation-cap"></i> Academic Information</h2>
+            <div class="academic-info">
+                <div class="info-item">
+                    <label><i class="fas fa-university"></i> College</label>
+                    <span id="userCollege">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <label><i class="fas fa-book"></i> Major</label>
+                    <span id="userMajor">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <label><i class="fas fa-calendar-alt"></i> Graduation Year</label>
+                    <span id="userGradYear">Loading...</span>
+                </div>
+                <div id="interestedCollegesContainer" class="info-item" style="display: none;">
+                    <label><i class="fas fa-heart"></i> Interested Colleges</label>
+                    <span id="userInterestedColleges">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions Section -->
+        <div class="profile-section questions-section">
+            <h2><i class="fas fa-question-circle"></i> Questions Asked</h2>
+            <div id="userQuestions" class="questions-list">
+                <p class="no-questions-message">Loading questions...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
+                <button class="close-modal" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="editBio">
+                        <i class="fas fa-comment-alt"></i> Bio
+                    </label>
+                    <textarea id="editBio" name="bio" rows="4" 
+                        placeholder="Tell us about yourself..."
+                        maxlength="500"></textarea>
+                    <div class="char-count">
+                        <span id="bioCharCount">0</span>/500 characters
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editAvatar">
+                        <i class="fas fa-image"></i> Profile Picture
+                    </label>
+                    <div class="avatar-upload">
+                        <img id="avatarPreview" src="../assets/default-avatar.png" alt="Avatar preview">
+                        <div class="avatar-controls">
+                            <input type="file" id="editAvatar" name="avatar" accept="image/*" class="hidden">
+                            <button type="button" class="btn btn-secondary" id="uploadAvatarBtn">
+                                <i class="fas fa-upload"></i> Upload Photo
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" id="removeAvatarBtn">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><i class="fas fa-graduation-cap"></i> Academic Information</h3>
+                    <div class="form-group">
+                        <label for="editCollege">
+                            <i class="fas fa-university"></i> College
+                        </label>
+                        <input type="text" id="editCollege" name="college" 
+                            placeholder="Enter your college name"
+                            list="collegesList">
+                        <datalist id="collegesList">
+                            <option value="Massachusetts Institute of Technology">
+                            <option value="Stanford University">
+                            <option value="Harvard University">
+                            <option value="California Institute of Technology">
+                            <option value="University of California, Berkeley">
+                        </datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editMajor">
+                            <i class="fas fa-book"></i> Major
+                        </label>
+                        <input type="text" id="editMajor" name="major" 
+                            placeholder="Enter your major"
+                            list="majorsList">
+                        <datalist id="majorsList">
+                            <option value="Computer Science">
+                            <option value="Electrical Engineering">
+                            <option value="Mechanical Engineering">
+                            <option value="Chemical Engineering">
+                            <option value="Biology">
+                        </datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editGradYear">
+                            <i class="fas fa-calendar-alt"></i> Graduation Year
+                        </label>
+                        <input type="number" id="editGradYear" name="graduationYear" 
+                            placeholder="Enter graduation year (e.g., 2025)"
+                            min="2024" max="2030">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary cancel-edit">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { AdminAuth } from '../js/auth.js';
+        import Profile from '../js/profile.js';
+
+        // Check if user is authenticated
+        const token = localStorage.getItem('token');
+        if (!token) {
+            const errorState = document.getElementById('errorState');
+            const loadingState = document.getElementById('loadingState');
+            errorState.classList.remove('hidden');
+            loadingState.classList.add('hidden');
+            document.getElementById('errorMessage').textContent = 'Please log in to view this profile.';
+        } else {
+            // Initialize profile
+            const profile = new Profile();
+            profile.initialize().catch(error => {
+                console.error('Failed to initialize profile:', error);
+            });
+        }
+    </script>
+    <script type="module" src="../js/profile.js"></script>
+</body>
+</html>

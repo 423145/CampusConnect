@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - CampusConnect</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CampusConnect</a></h1>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" id="closeMenu"></i>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="questions.html">Q&A</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="user-avatar">
+                    <img src="" alt="" id="headerAvatar">
+                </div>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="notifications.html" class="dropdown-item">
+                        <i class="fas fa-bell"></i> Notifications
+                    </a>
+                    <a href="#" class="dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+            <i class="fas fa-bars" id="openMenu"></i>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="notifications-container">
+            <div class="notifications-header">
+                <h1>Notifications</h1>
+                <div class="notifications-actions">
+                    <button class="btn btn-outline" id="markAllRead">Mark All as Read</button>
+                    <div class="filter-dropdown">
+                        <button class="btn btn-outline dropdown-toggle">
+                            Filter <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item active" data-filter="all">All Notifications</a>
+                            <a href="#" class="dropdown-item" data-filter="unread">Unread</a>
+                            <a href="#" class="dropdown-item" data-filter="answers">Answers</a>
+                            <a href="#" class="dropdown-item" data-filter="comments">Comments</a>
+                            <a href="#" class="dropdown-item" data-filter="upvotes">Upvotes</a>
+                            <a href="#" class="dropdown-item" data-filter="mentions">Mentions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notifications-list" id="notificationsList">
+                <!-- Notifications will be loaded dynamically -->
+            </div>
+            
+            <div class="notifications-empty" id="notificationsEmpty" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <h3>No notifications yet</h3>
+                <p>When you get notifications, they'll show up here.</p>
+            </div>
+            
+            <div class="notifications-pagination" id="notificationsPagination">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div class="pagination-info">Page 1 of 1</div>
+                <button class="pagination-btn" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="notifications-settings">
+            <h2>Notification Settings</h2>
+            <div class="settings-section">
+                <h3>Email Notifications</h3>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Answers to your questions</h4>
+                        <p>Get notified when someone answers your questions</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailAnswers" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Comments on your answers</h4>
+                        <p>Get notified when someone comments on your answers</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailComments" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Upvotes on your content</h4>
+                        <p>Get notified when someone upvotes your questions or answers</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailUpvotes">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Mentions</h4>
+                        <p>Get notified when someone mentions you in a question or answer</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailMentions" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Push Notifications</h3>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>All notifications</h4>
+                        <p>Enable or disable all push notifications</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="pushAll" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>CampusConnect</h2>
+                <p>Connecting prospective students with authentic college experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="colleges.html">Colleges</a></li>
+                        <li><a href="questions.html">Q&A</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="guidelines.html">Community Guidelines</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:support@campusconnect.com">support@campusconnect.com</a></li>
+                        <li><a href="tel:+1234567890">+123 456 7890</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CampusConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/notifications.js"></script>
+</body>
+</html>

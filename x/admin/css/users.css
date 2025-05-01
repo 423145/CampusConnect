@@ -1,0 +1,305 @@
+/* Users Management Page Styles */
+
+.user-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.users-table th,
+.users-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.users-table th {
+  font-weight: 600;
+  color: var(--admin-secondary);
+  background-color: var(--admin-light);
+}
+
+.users-table tr:hover {
+  background-color: rgba(78, 115, 223, 0.05);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--admin-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  color: var(--admin-secondary);
+}
+
+.user-role {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-admin {
+  background-color: rgba(231, 74, 59, 0.1);
+  color: var(--admin-danger);
+}
+
+.role-faculty {
+  background-color: rgba(78, 115, 223, 0.1);
+  color: var(--admin-primary);
+}
+
+.role-student {
+  background-color: rgba(28, 200, 138, 0.1);
+  color: var(--admin-success);
+}
+
+.role-alumni {
+  background-color: rgba(246, 194, 62, 0.1);
+  color: var(--admin-warning);
+}
+
+.user-status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.status-active {
+  background-color: var(--admin-success);
+}
+
+.status-inactive {
+  background-color: var(--admin-secondary);
+}
+
+.status-pending {
+  background-color: var(--admin-warning);
+}
+
+.status-banned {
+  background-color: var(--admin-danger);
+}
+
+.user-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.user-actions button {
+  background: none;
+  border: none;
+  color: var(--admin-secondary);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.user-actions button:hover {
+  color: var(--admin-primary);
+}
+
+.user-actions button.delete:hover {
+  color: var(--admin-danger);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.pagination-item {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  background-color: white;
+  border: 1px solid var(--admin-border-color);
+  color: var(--admin-dark);
+  text-decoration: none;
+  transition: var(--admin-transition);
+}
+
+.pagination-item:hover {
+  background-color: var(--admin-light);
+}
+
+.pagination-item.active {
+  background-color: var(--admin-primary);
+  color: white;
+  border-color: var(--admin-primary);
+}
+
+.pagination-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.user-detail-modal .admin-modal-content {
+  max-width: 800px;
+}
+
+.user-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-detail-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--admin-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.user-detail-info h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.user-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: var(--admin-secondary);
+  font-size: 0.9rem;
+}
+
+.user-detail-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--admin-border-color);
+  margin-bottom: 1.5rem;
+}
+
+.user-detail-tab {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+  color: var(--admin-secondary);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.user-detail-tab:hover {
+  color: var(--admin-primary);
+}
+
+.user-detail-tab.active {
+  color: var(--admin-primary);
+  border-bottom-color: var(--admin-primary);
+}
+
+.user-detail-content {
+  display: none;
+}
+
+.user-detail-content.active {
+  display: block;
+}
+
+.user-form-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-form-group {
+  flex: 1;
+}
+
+.user-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.user-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .users-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-group .form-control {
+    width: 100%;
+  }
+
+  .user-form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .user-detail-header {
+    flex-direction: column;
+    text-align: center;
+  }
+}
