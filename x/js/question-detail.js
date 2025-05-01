@@ -32,11 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load hot questions for sidebar
     loadHotQuestions()
   
-    // Load top contributors for sidebar
-    loadTopContributors()
-  
     // Add event listeners
     setupEventListeners(questionId)
+  
+    // Fetch and display the report count for the question
+    updateQuestionReportCount(questionId)
   })
   
   // Function to get current user from localStorage
@@ -185,13 +185,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const template = document.getElementById("answer-template");
         const answerElement = document.importNode(template.content, true);
         answerElement.querySelector(".answer-text").innerHTML = answer.content;
-        answerElement.querySelector(".vote-count").textContent = answer.upvotes || 0;
+        const voteCountSpan = answerElement.querySelector(".vote-count");
+        voteCountSpan.textContent = answer.upvotes || 0;
         if (answer.author) {
           const authorAvatar = answerElement.querySelector(".author-avatar");
           authorAvatar.innerHTML = `<img src="${answer.author.avatar || '../assets/default-avatar.jpg'}" alt="${answer.author.name || 'User'}" style="width:32px;height:32px;border-radius:50%;">`;
           answerElement.querySelector(".author-name").textContent = answer.author.name || 'User';
           answerElement.querySelector(".answered-time").textContent = `answered ${timeAgo(answer.createdAt)}`;
         }
+        // Voting for answers
+        const upvoteBtn = answerElement.querySelector('.upvote-answer-btn');
+        const downvoteBtn = answerElement.querySelector('.downvote-answer-btn');
+        upvoteBtn.addEventListener('click', () => voteAnswer(answer._id, 1, voteCountSpan));
+        downvoteBtn.addEventListener('click', () => voteAnswer(answer._id, -1, voteCountSpan));
         // Comment section for this answer
         const commentsListDiv = answerElement.querySelector('.answer-comments-list');
         loadAnswerComments(answer._id, commentsListDiv);
@@ -285,132 +291,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Function to load hot questions for sidebar
-  function loadHotQuestions() {
-    const hotQuestionsContainer = document.getElementById("hot-questions-list")
-    hotQuestionsContainer.innerHTML = ""
-  
-    // In a real application, this would be an API call to get hot questions
-    // For now, we'll simulate with mock data
-    const mockQuestions = JSON.parse(localStorage.getItem("questions")) || []
-  
-    // Sort by most votes and views, limit to 5
-    const hotQuestions = mockQuestions
-      .sort((a, b) => {
-        const aScore = (a.votes || 0) + (a.views || 0) / 10
-        const bScore = (b.votes || 0) + (b.views || 0) / 10
-        return bScore - aScore
-      })
-      .slice(0, 5)
-  
-    if (hotQuestions.length === 0) {
-      const noHot = document.createElement("li")
-      noHot.textContent = "No hot questions found."
-      hotQuestionsContainer.appendChild(noHot)
-      return
+  async function loadHotQuestions() {
+    const hotQuestionsContainer = document.getElementById("hot-questions-list");
+    hotQuestionsContainer.innerHTML = "";
+
+    try {
+      const response = await fetch("http://localhost:3000/api/questions/trending");
+      if (!response.ok) throw new Error("Failed to fetch hot questions");
+      const hotQuestions = await response.json();
+
+      if (!hotQuestions || hotQuestions.length === 0) {
+        const noHot = document.createElement("li");
+        noHot.textContent = "No hot questions found.";
+        hotQuestionsContainer.appendChild(noHot);
+        return;
+      }
+
+      hotQuestions.forEach((question) => {
+        const listItem = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = `question-detail.html?id=${question.id || question._id}`;
+        link.textContent = question.title;
+
+        const stats = document.createElement("div");
+        stats.className = "question-stats";
+
+        const votes = document.createElement("span");
+        votes.innerHTML = `<i class=\"fas fa-arrow-up\"></i> ${question.upvotes || 0} votes`;
+
+        const answers = document.createElement("span");
+        // Use answers.length if answers is an array, otherwise fallback to 0 or answers count
+        let answerCount = 0;
+        if (Array.isArray(question.answers)) {
+          answerCount = question.answers.length;
+        } else if (typeof question.answers === 'number') {
+          answerCount = question.answers;
+        }
+        answers.innerHTML = `<i class=\"fas fa-comment\"></i> ${answerCount} answers`;
+
+        stats.appendChild(votes);
+        stats.appendChild(answers);
+
+        listItem.appendChild(link);
+        listItem.appendChild(stats);
+        hotQuestionsContainer.appendChild(listItem);
+      });
+    } catch (error) {
+      const noHot = document.createElement("li");
+      noHot.textContent = "No hot questions found.";
+      hotQuestionsContainer.appendChild(noHot);
     }
-  
-    hotQuestions.forEach((question) => {
-      const listItem = document.createElement("li")
-  
-      const link = document.createElement("a")
-      link.href = `question-detail.html?id=${question.id}`
-      link.textContent = question.title
-  
-      const stats = document.createElement("div")
-      stats.className = "question-stats"
-  
-      const votes = document.createElement("span")
-      votes.innerHTML = `<i class="fas fa-arrow-up"></i> ${question.votes || 0} votes`
-  
-      const answers = document.createElement("span")
-      const answerCount = getAnswerCount(question.id)
-      answers.innerHTML = `<i class="fas fa-comment"></i> ${answerCount} answers`
-  
-      stats.appendChild(votes)
-      stats.appendChild(answers)
-  
-      listItem.appendChild(link)
-      listItem.appendChild(stats)
-      hotQuestionsContainer.appendChild(listItem)
-    })
   }
   
   // Function to get answer count for a question
   function getAnswerCount(questionId) {
     const mockAnswers = JSON.parse(localStorage.getItem("answers")) || []
     return mockAnswers.filter((a) => a.questionId === Number.parseInt(questionId) || a.questionId === questionId).length
-  }
-  
-  // Function to load top contributors for sidebar
-  function loadTopContributors() {
-    const contributorsContainer = document.getElementById("top-contributors-list")
-    contributorsContainer.innerHTML = ""
-  
-    // In a real application, this would be an API call to get top contributors
-    // For now, we'll simulate with mock data
-    const mockUsers = JSON.parse(localStorage.getItem("users")) || []
-    const mockAnswers = JSON.parse(localStorage.getItem("answers")) || []
-  
-    // Calculate user contributions (based on answers and votes)
-    const userContributions = {}
-  
-    mockAnswers.forEach((answer) => {
-      if (!userContributions[answer.authorId]) {
-        userContributions[answer.authorId] = {
-          answers: 0,
-          votes: 0,
-        }
-      }
-  
-      userContributions[answer.authorId].answers++
-      userContributions[answer.authorId].votes += answer.votes || 0
-    })
-  
-    // Sort users by contribution score
-    const topContributors = mockUsers
-      .filter((user) => userContributions[user.id])
-      .sort((a, b) => {
-        const aScore = userContributions[a.id].answers * 2 + userContributions[a.id].votes
-        const bScore = userContributions[b.id].answers * 2 + userContributions[b.id].votes
-        return bScore - aScore
-      })
-      .slice(0, 5)
-  
-    if (topContributors.length === 0) {
-      const noContributors = document.createElement("li")
-      noContributors.textContent = "No contributors found."
-      contributorsContainer.appendChild(noContributors)
-      return
-    }
-  
-    topContributors.forEach((user) => {
-      const listItem = document.createElement("li")
-  
-      const contributor = document.createElement("div")
-      contributor.className = "contributor"
-  
-      const avatar = createAvatarElement(user)
-  
-      const details = document.createElement("div")
-      details.className = "contributor-details"
-  
-      const name = document.createElement("div")
-      name.className = "contributor-name"
-      name.textContent = user.name
-  
-      const stats = document.createElement("div")
-      stats.className = "contributor-stats"
-      stats.textContent = `${userContributions[user.id].answers} answers, ${userContributions[user.id].votes} votes`
-  
-      details.appendChild(name)
-      details.appendChild(stats)
-  
-      contributor.appendChild(avatar)
-      contributor.appendChild(details)
-  
-      listItem.appendChild(contributor)
-      contributorsContainer.appendChild(listItem)
-    })
   }
   
   // Function to setup event listeners
@@ -522,63 +459,66 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Function to vote on question
-  function voteQuestion(questionId, voteType) {
-    const currentUser = getCurrentUser()
-  
+  async function voteQuestion(questionId, voteType) {
+    const currentUser = getCurrentUser();
     if (!currentUser) {
-      alert("Please log in to vote")
-      return
+      alert("Please log in to vote");
+      return;
     }
-  
-    // In a real application, this would be an API call
-    // For now, we'll simulate with localStorage
-    const mockQuestions = JSON.parse(localStorage.getItem("questions")) || []
-    const questionIndex = mockQuestions.findIndex((q) => q.id === Number.parseInt(questionId) || q.id === questionId)
-  
-    if (questionIndex === -1) return
-  
-    const question = mockQuestions[questionIndex]
-  
-    // Initialize userVotes if it doesn't exist
-    if (!question.userVotes) {
-      question.userVotes = {}
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to vote');
+      return;
     }
-  
-    const currentVote = question.userVotes[currentUser.id] || 0
-    let voteChange = 0
-  
-    if (currentVote === voteType) {
-      // User is canceling their vote
-      question.userVotes[currentUser.id] = 0
-      voteChange = -voteType
+    let url = '';
+    if (voteType === 1) {
+      url = `http://localhost:3000/api/questions/${questionId}/upvote`;
+    } else if (voteType === -1) {
+      url = `http://localhost:3000/api/questions/${questionId}/downvote`;
     } else {
-      // User is changing their vote or voting for the first time
-      voteChange = voteType - currentVote
-      question.userVotes[currentUser.id] = voteType
+      return;
     }
-  
-    // Update vote count
-    question.votes = (question.votes || 0) + voteChange
-  
-    // Save to localStorage
-    localStorage.setItem("questions", JSON.stringify(mockQuestions))
-  
-    // Update UI
-    document.getElementById("question-vote-count").textContent = question.votes
-  
-    if (upvoteBtn) {
-      upvoteBtn.classList.remove("active")
-      downvoteBtn.classList.remove("active")
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(errorData.message || 'Error voting on question.');
+        return;
+      }
+      const data = await res.json();
+      document.getElementById("question-vote-count").textContent = data.upvotes;
+    } catch (error) {
+      alert('Error voting on question.');
     }
+  }
   
-    if (question.userVotes[currentUser.id] === 1) {
-      if (upvoteBtn) {
-        upvoteBtn.classList.add("active")
-      }
-    } else if (question.userVotes[currentUser.id] === -1) {
-      if (downvoteBtn) {
-        downvoteBtn.classList.add("active")
-      }
+  // Function to vote on an answer
+  async function voteAnswer(answerId, voteType, voteCountSpan) {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      alert("Please log in to vote");
+      return;
+    }
+    let url = '';
+    if (voteType === 1) {
+      url = `http://localhost:3000/api/answers/${answerId}/upvote`;
+    } else if (voteType === -1) {
+      url = `http://localhost:3000/api/answers/${answerId}/downvote`;
+    } else {
+      return;
+    }
+    try {
+      const res = await fetch(url, { method: 'POST' });
+      if (!res.ok) throw new Error('Vote failed');
+      const data = await res.json();
+      if (voteCountSpan) voteCountSpan.textContent = data.upvotes;
+    } catch (error) {
+      alert('Error voting on answer.');
     }
   }
   
@@ -742,6 +682,83 @@ document.addEventListener("DOMContentLoaded", () => {
       loadQuestionComments(questionId);
     } catch (error) {
       alert('Error posting comment.');
+    }
+  }
+  
+  function openReportModal(type, id) {
+    const modal = document.getElementById('report-modal');
+    if (modal) {
+      modal.style.display = 'block';
+      modal.dataset.reportType = type;
+      modal.dataset.reportId = id;
+    }
+  }
+  
+  // Fetch and display the report count for the question
+  async function updateQuestionReportCount(questionId) {
+    try {
+      const res = await fetch(`http://localhost:3000/api/questions/${questionId}/report-count`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const reportBtn = document.getElementById('report-btn');
+      if (reportBtn) {
+        let countSpan = reportBtn.querySelector('.report-count');
+        if (!countSpan) {
+          countSpan = document.createElement('span');
+          countSpan.className = 'report-count';
+          reportBtn.appendChild(countSpan);
+        }
+        countSpan.textContent = ` (${data.count})`;
+      }
+    } catch (error) {
+      // Ignore errors
+    }
+  }
+
+  // Submit a report for the question
+  async function submitReport() {
+    const modal = document.getElementById('report-modal');
+    const type = modal.dataset.reportType;
+    const id = modal.dataset.reportId;
+    const reason = document.getElementById('report-reason').value;
+    const description = document.getElementById('report-description').value;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to report.');
+      return;
+    }
+    if (!reason) {
+      alert('Please select a reason.');
+      return;
+    }
+    let url = '';
+    if (type === 'question') {
+      url = `http://localhost:3000/api/questions/${id}/report`;
+    } else if (type === 'answer') {
+      url = `http://localhost:3000/api/answers/${id}/report`;
+    } else {
+      alert('Invalid report type.');
+      return;
+    }
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ reason, description })
+      });
+      if (!res.ok) {
+        alert('Error submitting report.');
+        return;
+      }
+      alert('Report submitted successfully!');
+      modal.style.display = 'none';
+      // Update report count if it's a question
+      if (type === 'question') updateQuestionReportCount(id);
+    } catch (error) {
+      alert('Error submitting report.');
     }
   }
   

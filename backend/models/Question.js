@@ -42,6 +42,8 @@ const questionSchema = new mongoose.Schema({
         default: 0,
         min: [0, 'Downvotes cannot be negative']
     },
+    upvotedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+    downvotedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
     answers: [{
         content: {
             type: String,

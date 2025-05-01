@@ -4,6 +4,7 @@ const Question = require('../models/Question');
 const jwt = require('jsonwebtoken');
 const Answer = require('../models/Answer');
 const Comment = require('../models/Comment');
+const Report = require('../models/Report');
 
 // GET /api/questions
 router.get('/', async (req, res) => {
@@ -345,6 +346,129 @@ router.get('/answers/:id/comments', async (req, res) => {
     } catch (error) {
         console.error('Error fetching comments:', error);
         res.status(500).json({ message: 'Error fetching comments', error: error.message });
+    }
+});
+
+// POST /api/questions/:id/report - Submit a report for a question
+router.post('/:id/report', async (req, res) => {
+    try {
+        const { reason, description } = req.body;
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const author = decoded.userId;
+        const questionId = req.params.id;
+        // Ensure the question exists
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        const report = new Report({
+            parentType: 'Question',
+            parentId: questionId,
+            reason,
+            description,
+            author
+        });
+        await report.save();
+        res.status(201).json({ message: 'Report submitted successfully' });
+    } catch (error) {
+        console.error('Error submitting report:', error);
+        res.status(500).json({ message: 'Error submitting report', error: error.message });
+    }
+});
+
+// GET /api/questions/:id/report-count - Get number of reports for a question
+router.get('/:id/report-count', async (req, res) => {
+    try {
+        const questionId = req.params.id;
+        const count = await Report.countDocuments({ parentType: 'Question', parentId: questionId });
+        res.json({ count });
+    } catch (error) {
+        console.error('Error fetching report count:', error);
+        res.status(500).json({ message: 'Error fetching report count', error: error.message });
+    }
+});
+
+// POST /api/questions/:id/upvote - Upvote a question
+router.post('/:id/upvote', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const userId = decoded.userId;
+        const questionId = req.params.id;
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        // Check if user already upvoted
+        if (question.upvotedBy.includes(userId)) {
+            return res.status(400).json({ message: 'You have already upvoted this question.' });
+        }
+        // Remove from downvotedBy if present
+        question.downvotedBy = question.downvotedBy.filter(id => id.toString() !== userId);
+        // Add to upvotedBy and increment upvotes
+        question.upvotedBy.push(userId);
+        question.upvotes = (question.upvotes || 0) + 1;
+        await question.save();
+        res.json({ upvotes: question.upvotes });
+    } catch (error) {
+        console.error('Error upvoting question:', error);
+        res.status(500).json({ message: 'Error upvoting question', error: error.message });
+    }
+});
+
+// POST /api/questions/:id/downvote - Downvote a question
+router.post('/:id/downvote', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.replace('Bearer ', '');
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret');
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        const userId = decoded.userId;
+        const questionId = req.params.id;
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        // Check if user already downvoted
+        if (question.downvotedBy.includes(userId)) {
+            return res.status(400).json({ message: 'You have already downvoted this question.' });
+        }
+        // Remove from upvotedBy if present
+        question.upvotedBy = question.upvotedBy.filter(id => id.toString() !== userId);
+        // Add to downvotedBy and decrement upvotes
+        question.downvotedBy.push(userId);
+        question.upvotes = (question.upvotes || 0) - 1;
+        await question.save();
+        res.json({ upvotes: question.upvotes });
+    } catch (error) {
+        console.error('Error downvoting question:', error);
+        res.status(500).json({ message: 'Error downvoting question', error: error.message });
     }
 });
 
