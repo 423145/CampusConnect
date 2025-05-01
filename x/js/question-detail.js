@@ -235,49 +235,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Function to load related questions
-  function loadRelatedQuestions(questionId) {
-    const relatedQuestionsContainer = document.getElementById("related-questions-list")
-    relatedQuestionsContainer.innerHTML = ""
-  
-    // In a real application, this would be an API call to get related questions
-    // For now, we'll simulate with mock data
-    const mockQuestions = JSON.parse(localStorage.getItem("questions")) || []
-    const currentQuestion = mockQuestions.find((q) => q.id === Number.parseInt(questionId) || q.id === questionId)
-  
-    if (!currentQuestion) return
-  
-    // Get questions from the same college or with similar tags
-    const relatedQuestions = mockQuestions.filter((q) => {
-      if (q.id === Number.parseInt(questionId) || q.id === questionId) return false // Exclude current question
-  
-      // Check if same college
-      if (q.collegeId === currentQuestion.collegeId) return true
-  
-      // Check if has common tags
-      const commonTags = q.tags.filter((tag) => currentQuestion.tags.includes(tag))
-      return commonTags.length > 0
-    })
-  
-    // Sort by most recent and limit to 5
-    const recentRelated = relatedQuestions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5)
-  
-    if (recentRelated.length === 0) {
-      const noRelated = document.createElement("li")
-      noRelated.textContent = "No related questions found."
-      relatedQuestionsContainer.appendChild(noRelated)
-      return
+  async function loadRelatedQuestions(questionId) {
+    const relatedQuestionsContainer = document.getElementById("related-questions-list");
+    relatedQuestionsContainer.innerHTML = "";
+    try {
+      // Fetch the current question to get its tags
+      const questionRes = await fetch(`http://localhost:3000/api/questions/${questionId}`);
+      if (!questionRes.ok) return;
+      const question = await questionRes.json();
+      const tags = question.tags || [];
+      if (tags.length === 0) {
+        const noRelated = document.createElement("li");
+        noRelated.textContent = "No related questions found.";
+        relatedQuestionsContainer.appendChild(noRelated);
+        return;
+      }
+      // Use only the first tag for related questions
+      const tag = encodeURIComponent(tags[0]);
+      const relatedRes = await fetch(`http://localhost:3000/api/questions?tags=${tag}`);
+      if (!relatedRes.ok) return;
+      const data = await relatedRes.json();
+      // Filter out the current question and ensure tag matches exactly (case-insensitive, trimmed)
+      const normalizedTag = tags[0].trim().toLowerCase();
+      const relatedQuestions = (data.questions || []).filter(q => {
+        // Exclude the current question
+        if (q._id && q._id.toString() === questionId.toString()) return false;
+        // Ensure the tag matches exactly (case-insensitive, trimmed)
+        return (q.tags || []).some(t => t.trim().toLowerCase() === normalizedTag);
+      });
+      if (relatedQuestions.length === 0) {
+        const noRelated = document.createElement("li");
+        noRelated.textContent = "No related questions found.";
+        relatedQuestionsContainer.appendChild(noRelated);
+        return;
+      }
+      relatedQuestions.forEach((q) => {
+        const listItem = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `question-detail.html?id=${q._id}`;
+        link.textContent = q.title;
+        listItem.appendChild(link);
+        relatedQuestionsContainer.appendChild(listItem);
+      });
+    } catch (error) {
+      const noRelated = document.createElement("li");
+      noRelated.textContent = "No related questions found.";
+      relatedQuestionsContainer.appendChild(noRelated);
     }
-  
-    recentRelated.forEach((question) => {
-      const listItem = document.createElement("li")
-  
-      const link = document.createElement("a")
-      link.href = `question-detail.html?id=${question.id}`
-      link.textContent = question.title
-  
-      listItem.appendChild(link)
-      relatedQuestionsContainer.appendChild(listItem)
-    })
   }
   
   // Function to load hot questions for sidebar

@@ -8,13 +8,20 @@ const Comment = require('../models/Comment');
 // GET /api/questions
 router.get('/', async (req, res) => {
     try {
-        const { page = 1, limit = 10, sort = 'createdAt', order = 'desc' } = req.query;
+        const { page = 1, limit = 10, sort = 'createdAt', order = 'desc', tags } = req.query;
         const numPage = parseInt(page);
         const numLimit = parseInt(limit);
         const skip = (numPage - 1) * numLimit;
 
+        // Build query
+        let query = {};
+        if (tags) {
+            const tagList = tags.split(',').map(tag => tag.trim());
+            query.tags = { $in: tagList };
+        }
+
         // Get total count
-        const totalQuestions = await Question.countDocuments();
+        const totalQuestions = await Question.countDocuments(query);
         if (totalQuestions === 0) {
             return res.json({
                 questions: [],
@@ -25,7 +32,7 @@ router.get('/', async (req, res) => {
         }
 
         // Fetch questions with sorting and pagination
-        const questions = await Question.find()
+        const questions = await Question.find(query)
             .populate('author', 'name avatar')
             .sort({ [sort]: order === 'desc' ? -1 : 1 })
             .skip(skip)
