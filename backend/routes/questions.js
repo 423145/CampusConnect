@@ -2,6 +2,45 @@ const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
 
+// GET /api/questions
+router.get('/', async (req, res) => {
+    try {
+        const { page = 1, limit = 10, sort = 'createdAt', order = 'desc' } = req.query;
+        const numPage = parseInt(page);
+        const numLimit = parseInt(limit);
+        const skip = (numPage - 1) * numLimit;
+
+        // Get total count
+        const totalQuestions = await Question.countDocuments();
+        if (totalQuestions === 0) {
+            return res.json({
+                questions: [],
+                totalPages: 0,
+                currentPage: numPage,
+                totalQuestions: 0
+            });
+        }
+
+        // Fetch questions with sorting and pagination
+        const questions = await Question.find()
+            .populate('author', 'name avatar')
+            .sort({ [sort]: order === 'desc' ? -1 : 1 })
+            .skip(skip)
+            .limit(numLimit);
+
+        const totalPages = Math.ceil(totalQuestions / numLimit);
+        res.json({
+            questions,
+            totalPages,
+            currentPage: numPage,
+            totalQuestions
+        });
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        res.status(500).json({ message: 'Error fetching questions', error: error.message });
+    }
+});
+
 // GET /api/questions/trending
 router.get('/trending', async (req, res) => {
     try {

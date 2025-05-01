@@ -28,6 +28,7 @@ body {
     height: 70px;
     background: var(--bg-color);
     z-index: 1001;
+    overflow-x: visible;
 }
 
 .logo {
@@ -44,17 +45,19 @@ body {
 .nav-links {
     display: flex;
     flex-direction: row;
-    gap: 2.5rem;
     align-items: center;
+    gap: 2.5rem;
     position: static;
     background: none;
     height: auto;
     box-shadow: none;
     padding: 0;
     z-index: 1;
+    flex-wrap: nowrap;
 }
 
 .nav-links a {
+    display: inline-flex;
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
@@ -63,6 +66,7 @@ body {
     border-radius: var(--border-radius);
     transition: var(--transition), background 0.2s, color 0.2s;
     position: relative;
+    width: auto;
 }
 
 .nav-links a.active,
@@ -152,6 +156,7 @@ body {
         transition: var(--transition);
         box-shadow: var(--shadow-lg);
         z-index: 1001;
+        flex-wrap: nowrap;
     }
     .nav-links.active {
         right: 0;
@@ -160,6 +165,7 @@ body {
         width: 100%;
         padding: 1rem 0;
         font-size: 1.1rem;
+        display: block;
     }
     .auth-buttons {
         flex-direction: column;

@@ -532,9 +532,11 @@
 
 .college-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+    justify-items: center;
+    width: 100%;
 }
 
 .college-card {
@@ -548,6 +550,8 @@
     transition: var(--transition), box-shadow 0.2s, transform 0.2s;
     cursor: pointer;
     min-height: 180px;
+    width: 100%;
+    max-width: 340px;
 }
 
 .college-card:hover {

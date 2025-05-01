@@ -9,6 +9,7 @@ const session = require('express-session');
 const path = require('path');
 const auth = require('./middleware/auth');
 const User = require('./models/User');
+const Question = require('./models/Question');
 
 // College Schema
 const collegeSchema = new mongoose.Schema({
@@ -26,90 +27,6 @@ const collegeSchema = new mongoose.Schema({
 });
 
 const College = mongoose.model('College', collegeSchema);
-
-// Question Schema
-const questionSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Title is required'],
-        trim: true,
-        minlength: [5, 'Title must be at least 5 characters long']
-    },
-    content: {
-        type: String,
-        required: [true, 'Content is required'],
-        trim: true,
-        minlength: [10, 'Content must be at least 10 characters long']
-    },
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Author is required']
-    },
-    college: {
-        type: String,
-        required: false,
-        trim: true
-    },
-    tags: [{
-        type: String,
-        trim: true
-    }],
-    views: {
-        type: Number,
-        default: 0,
-        min: [0, 'Views cannot be negative']
-    },
-    upvotes: {
-        type: Number,
-        default: 0,
-        min: [0, 'Upvotes cannot be negative']
-    },
-    downvotes: {
-        type: Number,
-        default: 0,
-        min: [0, 'Downvotes cannot be negative']
-    },
-    answers: [{
-        content: {
-            type: String,
-            required: [true, 'Answer content is required'],
-            trim: true
-        },
-        author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: [true, 'Answer author is required']
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now
-        },
-        upvotes: {
-            type: Number,
-            default: 0,
-            min: [0, 'Upvotes cannot be negative']
-        },
-        downvotes: {
-            type: Number,
-            default: 0,
-            min: [0, 'Downvotes cannot be negative']
-        }
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-}, {
-    timestamps: true
-});
-
-// Add indexes for better query performance
-questionSchema.index({ views: -1, upvotes: -1, createdAt: -1 });
-questionSchema.index({ author: 1 });
-questionSchema.index({ tags: 1 });
-
-const Question = mongoose.model('Question', questionSchema);
 
 // Set strictQuery to false to prepare for Mongoose 7
 mongoose.set('strictQuery', false);
@@ -243,13 +160,15 @@ const authMiddleware = async (req, res, next) => {
     }
 };
 
-// Import route modules
-const authRouter = require('./routes/auth');
-const usersRouter = require('./routes/users');
+// Import routes
+const questionsRouter = require('./routes/questions');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 
-// Mount route modules - this must be done AFTER middleware but BEFORE defining direct routes
-app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
+// Use routes
+app.use('/api/questions', questionsRouter);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // IMPORTANT: We're commenting out the direct endpoint since we're now using the one in auth routes
 /* 
@@ -1003,111 +922,56 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Get current user profile
+// Get current user
 app.get('/api/users/me', authMiddleware, async (req, res) => {
-    console.log('=== Get Current User Profile Request ===');
-    console.log('Auth header:', req.header('Authorization'));
-    console.log('User from auth middleware:', req.user);
-    
     try {
-        if (!req.user || !req.user._id) {
-            console.error('No user found in request');
-            return res.status(401).json({ 
-                message: 'User not authenticated',
-                error: 'No user found in request'
-            });
-        }
-
-        // Find user and exclude sensitive data
-        const user = await User.findById(req.user._id)
-            .select('-password -__v')
-            .lean();
-
+        const user = await User.findById(req.user._id).select('-password');
         if (!user) {
-            console.error('User not found in database:', req.user._id);
-            return res.status(404).json({ 
-                message: 'User not found',
-                error: 'User not found in database'
-            });
+            return res.status(404).json({ message: 'User not found' });
         }
-
-        // Get user stats
-        const stats = await getUserStats(user._id);
-        
-        // Combine user data with stats
-        const userData = {
-            ...user,
-            stats
-        };
-
-        console.log('Sending user data:', {
-            id: userData._id,
-            name: userData.name,
-            email: userData.email,
-            role: userData.role
-        });
-
-        res.json(userData);
+        res.json(user);
     } catch (error) {
-        console.error('Error fetching current user:', {
-            message: error.message,
-            stack: error.stack,
-            name: error.name
-        });
-        res.status(500).json({ 
-            message: 'Error fetching user profile',
-            error: error.message
-        });
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Error fetching user', error: error.message });
     }
 });
 
-// Question Routes
-app.post('/api/questions', authMiddleware, async (req, res) => {
-    console.log('=== Create Question Request ===');
-    console.log('Request body:', req.body);
-    console.log('User:', req.user);
-    
-    try {
-        const { title, content, tags, college } = req.body;
-        
-        // Validate required fields
-        if (!title || !content) {
-            return res.status(400).json({ message: 'Title and content are required' });
-        }
-
-        // Create new question
-        const question = new Question({
-            title,
-            content,
-            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-            college,
-            author: req.user._id
-        });
-
-        // Save question
-        const savedQuestion = await question.save();
-        
-        // Populate author details
-        await savedQuestion.populate('author', 'name avatar');
-        
-        console.log('Question created successfully:', savedQuestion);
-        res.status(201).json(savedQuestion);
-    } catch (error) {
-        console.error('Error creating question:', error);
-        res.status(500).json({ message: 'Error creating question', error: error.message });
-    }
-});
-
-// Get all questions
+// Get all questions with sorting and pagination
 app.get('/api/questions', async (req, res) => {
     try {
+        const { page = 1, limit = 10, sort = 'createdAt', order = 'desc' } = req.query;
+        const numPage = parseInt(page);
+        const numLimit = parseInt(limit);
+        const skip = (numPage - 1) * numLimit;
+
+        // Get total count
+        const totalQuestions = await Question.countDocuments();
+        if (totalQuestions === 0) {
+            return res.json({
+                questions: [],
+                totalPages: 0,
+                currentPage: numPage,
+                totalQuestions: 0
+            });
+        }
+
+        // Fetch questions with sorting and pagination
         const questions = await Question.find()
-            .sort({ createdAt: -1 })
-            .populate('author', 'name avatar');
-        res.json(questions);
+            .populate('author', 'name avatar')
+            .sort({ [sort]: order === 'desc' ? -1 : 1 })
+            .skip(skip)
+            .limit(numLimit);
+
+        const totalPages = Math.ceil(totalQuestions / numLimit);
+        res.json({
+            questions,
+            totalPages,
+            currentPage: numPage,
+            totalQuestions
+        });
     } catch (error) {
         console.error('Error fetching questions:', error);
-        res.status(500).json({ message: 'Error fetching questions' });
+        res.status(500).json({ message: 'Error fetching questions', error: error.message });
     }
 });
 
@@ -1232,5 +1096,5 @@ async function createSampleColleges() {
     } catch (error) {
         console.error('Error creating sample colleges:', error);
     }
-} 
-
+}
+ 
