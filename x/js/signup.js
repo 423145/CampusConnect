@@ -59,6 +59,62 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize required fields for default role
     toggleRequiredFields(currentRole);
 
+    // Password visibility toggle for both password fields
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.parentElement.querySelector('input[type="password"], input[type="text"]');
+            if (input) {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                this.querySelector('img').src = isPassword ? '../assets/eye-slash.svg' : '../assets/eye.svg';
+                this.querySelector('img').alt = isPassword ? 'Hide Password' : 'Show Password';
+            }
+        });
+    });
+
+    // Password strength meter logic
+    function getPasswordStrength(password) {
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        return score;
+    }
+
+    function updateStrengthMeter(input, meter, text) {
+        const val = input.value;
+        const score = getPasswordStrength(val);
+        let width = '0%';
+        let color = 'var(--error-color)';
+        let label = 'Very Weak';
+        if (score === 1) { width = '20%'; color = 'var(--error-color)'; label = 'Very Weak'; }
+        else if (score === 2) { width = '40%'; color = '#f59e0b'; label = 'Weak'; }
+        else if (score === 3) { width = '60%'; color = '#fbbf24'; label = 'Medium'; }
+        else if (score === 4) { width = '80%'; color = 'var(--primary-color)'; label = 'Strong'; }
+        else if (score === 5) { width = '100%'; color = 'var(--success-color)'; label = 'Very Strong'; }
+        meter.style.width = width;
+        meter.style.backgroundColor = color;
+        text.textContent = 'Password Strength: ' + label;
+    }
+
+    // Attach strength meter listeners for both password fields
+    [
+        {input: document.getElementById('password'),
+         meter: document.querySelector('#prospective-form .strength-fill'),
+         text: document.querySelector('#prospective-form .strength-text')},
+        {input: document.getElementById('password-current'),
+         meter: document.querySelector('#current-form .strength-fill'),
+         text: document.querySelector('#current-form .strength-text')}
+    ].forEach(({input, meter, text}) => {
+        if (input && meter && text) {
+            input.addEventListener('input', function() {
+                updateStrengthMeter(input, meter, text);
+            });
+        }
+    });
+
     // Handle form submission
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
@@ -87,6 +143,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     const collegesInput = document.getElementById('interested-colleges').value.trim();
                     formData.interestedColleges = collegesInput ? collegesInput.split(',').map(college => college.trim()) : [];
+                }
+
+                // Add email domain validation for current students
+                if (currentRole === 'current') {
+                    const collegeEmail = formData.email;
+                    const collegeEmailPattern = /^[^@]+@[^@]+\.(edu|ac\.in)$/i;
+                    if (!collegeEmailPattern.test(collegeEmail)) {
+                        showAlert('Please enter a valid college email ending with .edu or .ac.in', 'danger');
+                        return;
+                    }
                 }
 
                 console.log('Sending signup data:', formData);
